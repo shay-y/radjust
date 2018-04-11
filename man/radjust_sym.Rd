@@ -6,33 +6,43 @@
 \usage{
 radjust_sym(pv1, pv2, w1 = 0.5, input_type = c("selected_features",
   "all_features"), general_dependency = FALSE,
-  directional_rep_claim = FALSE, selection_method = c("alpha-adjusted",
-  "alpha-adaptive", "none"), alpha = if (selection_method == "none") NULL else
-  0.05)
+  directional_rep_claim = FALSE,
+  variant = c("non-adaptive-with-alpha-selection", "adaptive",
+  "non-adaptive"), alpha = if (variant == "non-adaptive") NULL else 0.05)
 }
 \arguments{
-\item{pv1, pv2}{numeric vectors of p-values from the two studies, corresponding to the selected features (the default) or all the features; can be either of the same length or named.}
+\item{pv1, pv2}{numeric vectors of p-values. Can be the selected features from each study (default input type) from the two studies, corresponding to the selected features
+(the default) or all the features from each study. Can be either of the same length (so the same location in each vector corresponds to the same feature) or with names (so the same name in each vector correspond to the same feature).}
 
-\item{w1}{the relative weight for the p-values from study 1.}
+\item{w1}{fraction between zero and one, of the relative weight for the p-values from study 1. Default value is 0.5
+(see Details for other values).}
 
-\item{input_type}{whether \code{pv1} and \code{pv2} contain all the p-values from the studies or only the selected (the default).}
+\item{input_type}{whether \code{pv1} and \code{pv2} contain all the p-values from each study or only selected ones(the default).}
 
-\item{general_dependency}{whether the correct for general dependency.}
+\item{general_dependency}{TRUE or FALSE, indicating whether to correct for general dependency.
+The recommended default value is FALSE (see Details).}
 
-\item{selection_method}{...}
+\item{variant}{A character string specifying the chosen variant for a potential increase in the number of discoveries.
+Must be one of \code{"non-adaptive-with-alpha-selection"} (default), \code{"adaptive"}, or \code{"non-adaptive"} (see Details).}
 
-\item{alpha}{the threshold for the selection method ...}
+\item{alpha}{the threshold for the selection method.}
 }
 \value{
-a list with the following elements:
+The function returns a list with the following elements:
+
   \tabular{ll}{
-    \code{call}  \tab  the function call \cr
-    \code{inputs}  \tab  a list with the function's input parameters (except \code{pv1} and \code{pv2}) \cr
+    \code{call}  \tab  the function call. \cr
+    \code{inputs}  \tab  a list with the function's input parameters (except \code{pv1} and \code{pv2}). \cr
     \code{results_table} \tab  a data frame with the features selected in both studies and their r-values. The data frame includes 6 columns: \cr
-    \code{selected1, selected2}  \tab the named or indexed features selected in study 1, when \code{selection_method!="none"} \cr
-    \code{n_selected1, n_selected2} \tab  the named or indexed features selected in study 1, when \code{selection_method!="none"} \cr
-    \code{pi1, pi2}  \tab  the estimate of the true-nulls fraction in the study1\\study2
+    \code{selected1}  \tab the features selected in study 1 (when the variant is either \code{"adaptive"} or \code{"non-adaptive-with-alpha-selection"}). \cr
+    \code{selected2}  \tab the features selected in study 2, same as above. \cr
+    \code{n_selected1} \tab  the number of features in study 1. \cr
+    \code{n_selected2} \tab  the number of features in study 2. \cr
+    \code{pi1}  \tab  the estimate of the true-nulls fraction in the study1.
+    \code{pi2}  \tab  the estimate of the true-nulls fraction in the study2.
   }
+
+The third element in the list, \code{results_table}, includes the following columns:#'
 
   \tabular{lll}{
     \code{name}         \tab char.   \tab the name of the feature as extracted from the named vectors, or the location, if the input vectors are not named. \cr
@@ -40,35 +50,60 @@ a list with the following elements:
     \code{p.value.2}    \tab numeric \tab same as in \code{p.value.1}. \cr
     \code{r.value}      \tab numeric \tab the replicability adjusted p-value (= r-value). \cr
     \code{Direction}    \tab char.   \tab the direction of the replicability claim, when \code{directional_rep_claim==TRUE}. \cr
-    \code{Significant}  \tab char.   \tab a notion whether the replicability claim is significant, when \code{selection_method!="none"}.
+    \code{Significant}  \tab char.   \tab a notion whether the replicability claim is significant, when \code{variant!="non-adaptive"}.
   }
 }
 \description{
-The function receives two vectors of p-values from two independent studies and adjust
- them to control the False Discovery Rate of replicability claims.
+Given two vectors of p-values from two independent studies, returns the adjusted p-values for
+ false discovery rate control on replicability claims.
 }
 \details{
-EDIT extended details about the function.
+For FDR control at level \eqn{\alpha} on replicability claims, declare all features with \strong{\eqn{r}-value} at most \eqn{\alpha}
+as replicated. In addition, the discoveries from study 1 among the replicability claims have an FDR control guarantee at level \eqn{w_{1}\alpha}{w1 * \alpha}.
+ Similarly, the discoveries from study 2 among the replicability claims have an FDR control guarantee at level \eqn{(1-w_{1})\alpha}{(1-w1) * \alpha}. Setting
+ a value of \eqn{w_{1}}{w1} different than half is appropriate if stricter FDR control is desired for one of the studies.
+ For example, if study two has a much larger sample size than study one (and both studies examine the same problem), then
+ setting \eqn{w_{1} > 0.5}{w1 > 0.5} will provide a stricter FDR control for the larger study and greater power for the replicability analysis,
+  see Bogomolov and Heller (2018) for details.
+
+  The theoretical FDR control guarantees assume independence within each vector of p-values. However, empirical
+  investigations suggest that the method is robust to deviations from independence. In practice, we recommend using it whenever the
+  Benjamini-Hochberg procedure is appropriate for use with single studies, as this procedure can be viewed as a two-dimensional
+ Benjamini-Hochberg procedure which enjoys similar robustness properties. For general dependence, we provide the option to apply
+ a more conservative procedure with theoretical FDR control guarantee for any type of dependence for the non-adaptive procedure,
+ by setting  \code{general_dependency} to TRUE.
+
+If \code{variant} is \code{"non-adaptive-with-alpha-selection"}, then for a user specified \code{alpha} (default 0.05) only p-values from
+study one below \eqn{w_{1}\alpha}{w1 * \alpha} and from study
+two below \eqn{(1-w_{1})\alpha}{(1-w1) * \alpha} are considered for replicability analysis. This additional step prevents
+including in the selected sets features that cannot be discovered as replicability claims at the nominal FDR level
+\eqn{\alpha}, thus reducing the multiple adjustment necessary for replicability analysis.  If \code{variant} is \code{"adaptive"}, then for a user specified \code{alpha}
+the adaptive replicability analysis procedure is applied on the dataset, see Bogomolov and Heller (2018) for details.
 }
 \examples{
 
 data(mice)
-## transform the two-sided p-values to one-sided in the same direction (left);
-## we use the direction of the test statistic to do so and assume that it is continuous
+## transform the two-sided p-values to one-sided in the same direction (left):
+## (we use the direction of the test statistic to do so and assume that it is continuous)
+
 pv1 <- ifelse(mice$dir_is_left1, mice$twosided_pv1/2, 1-mice$twosided_pv1/2)
 pv2 <- ifelse(mice$dir_is_left2, mice$twosided_pv2/2, 1-mice$twosided_pv2/2)
-## run the examples as in the article
 
-mice_rv_adaptive <- radjust_sym(pv1, pv2, input_type = "all", directional_rep_claim = T, selection_method = "alpha-adaptive")
-mice_rv_adjusted <- radjust_sym(pv1, pv2, input_type = "all", directional_rep_claim = T, selection_method = "alpha-adjusted")
+## run the examples as in the article:
 
-mice_rv_no_sel <- radjust_sym(pv1, pv2, input_type = "selected", directional_rep_claim = T, selection_method = "none")
-mice_rv_no_sel
-
+mice_rv_adaptive <- radjust_sym(pv1, pv2, input_type = "all", directional_rep_claim = T, variant = "adaptive", alpha=0.025)
 print(mice_rv_adaptive)
+
+mice_rv_non_adpt_sel <- radjust_sym(pv1, pv2, input_type = "all", directional_rep_claim = T, variant = "non-adaptive-with-alpha-selection", alpha=0.025)
+print(mice_rv_non_adpt_sel)
+
+mice_rv_non_adpt <- radjust_sym(pv1, pv2, input_type = "selected", directional_rep_claim = T, variant = "non-adaptive")
+str(mice_rv_non_adpt)
+
 }
 \references{
-Add here the reference to the article.
+Bogomolov, M. and Heller, R. (2018). Assessing replicability of findings across two studies of multiple
+features. Biometrika.
 }
 \seealso{
 \code{\link{radjust_pf}} for replicability analysis in primary and follow-up studies.
