@@ -7,10 +7,11 @@ Authors@R:c(
     person("Shay", "Yaacoby", email = "shay66@gmail.com", role = "aut"),
     person("Marina", "Bogomolov", email = "marinabo@technion.ac.il", role = "aut"),
     person("Ruth", "Heller", email = "ruheller@gmail.com", role =  c("aut", "cre")))
-Description: EDIT
+Description: In the setting of replicability analysis, each endpoint is tested... EDIT
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Depends: R (>= 2.10)
 Suggests: covr,
     testthat
 RoxygenNote: 6.0.1
