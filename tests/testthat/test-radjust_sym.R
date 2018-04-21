@@ -2,20 +2,13 @@ context("test radjust_sym()")
 test_that(
   "The examples work and the outputs are equal to the saved copies",
   {
-    data(mice)
-
-    pv1 <- ifelse(mice$dir_is_left1, mice$twosided_pv1/2, 1-mice$twosided_pv1/2)
-    pv2 <- ifelse(mice$dir_is_left2, mice$twosided_pv2/2, 1-mice$twosided_pv2/2)
-
-    mice_rv_adaptive <- radjust_sym(pv1, pv2, input_type = "all",
-                                    directional_rep_claim = T, variant = "adaptive")
-
-    mice_rv_non_adpt_sel <- radjust_sym(pv1, pv2, input_type = "all",
-                                    directional_rep_claim = T, variant = "non-adaptive-with-alpha-selection")
-
+    sink("NUL")
+    suppressMessages(example(topic = "radjust_sym", package = "radjust", lib.loc = .libPaths(), echo = FALSE))
+    sink()
     data(examples_outputs_for_testing)
     expect_equivalent(mice_rv_adaptive, examples_outputs_for_testing$mice_rv_adaptive)
-    expect_equivalent(mice_rv_non_adpt_sel, examples_outputs_for_testing$mice_rv_adjusted)
+    expect_equivalent(mice_rv_non_adpt_sel, examples_outputs_for_testing$mice_rv_non_adpt_sel)
+    expect_equivalent(mice_rv_non_adpt, examples_outputs_for_testing$mice_rv_non_adpt)
 })
 
 test_that(
@@ -43,53 +36,60 @@ test_that(
     expect_error(radjust_sym(pv1,pv2, directional_rep_claim = 1234), regexp = 'directional_rep_claim')
 
     expect_error(radjust_sym(pv1,pv2, alpha = NULL), regexp = "variant != 'non-adaptive' but alpha value is not specified")
-    expect_warning(radjust_sym(pv1,pv2, variant = "non-adaptive", alpha = 0.05), regexp = "variant == 'non-adaptive' so alpha value is ignored")
+    expect_warning(radjust_sym(pv1,pv2, variant = "non-adaptive", alpha = 0.05), regexp = "variant == 'non-adaptive', alpha value is ignored")
   })
 
 
+test_that( "weight argument functional and its direction is right TODO: verify",{
+  pv1 <- c((1:20)/100)
+  pv2 <- c((1:20)/100)
 
-test_that(
-  "All parameters configurations work, without errors\\warnings, except when needed",
-  {
-    # TODO :complete this test
-    # data(mice)
-    #
-    # pv1 <- ifelse(mice$dir_is_left1, mice$twosided_pv1/2, 1-mice$twosided_pv1/2)
-    # pv2 <- ifelse(mice$dir_is_left2, mice$twosided_pv2/2, 1-mice$twosided_pv2/2)
-    #
-    # input <- expand.grid(
-    #   pv1 = list(pv1),
-    #   pv2 = list(pv2),
-    #   w1 = 0.5,
-    #   input_type = c("all","selected"),
-    #   general_dependency = c(T,F),
-    #   directional_rep_claim = c(T,F),
-    #   variant = c("alpha-adjusted", "alpha-adaptive", "none"),
-    #   alpha = .05
-    #   )
-    #
-    # result <- expand.grid(
-    #   pv1 = T,
-    #   pv2 = T,
-    #   w1 = T,
-    #   input_type = c(T,T),
-    #   general_dependency = c(T,T),
-    #   directional_rep_claim = c(T,T),
-    #   variant = c(T,T,T),
-    #   alpha = enquote('T'))
-    #
-    # res <- do.call(what = radjust_sym(), args = input)
-  })
+  n_selected1_when_equal_weights <- radjust_sym(pv1,pv2)$n_selected1
+  n_selected1_when_p1_weight_smaller <- radjust_sym(pv1,pv2,w1 = .1)$n_selected1
+  n_selected1_when_p1_weight_larger <- radjust_sym(pv1,pv2,w1 = .9)$n_selected1
 
+  expect_gt(n_selected1_when_equal_weights, n_selected1_when_p1_weight_smaller)
+  expect_lt(n_selected1_when_equal_weights, n_selected1_when_p1_weight_larger)
+})
 
-#
-# data(crohn)
-# crohn_rv1 <- radjust_pf(pv1 = crohn$pv1, pv2 = crohn$pv1, m = 635547, l00 = 0.8)
-# crohn_rv2 <- radjust_pf(pv1 = crohn$pv1, pv2 = crohn$pv1, m = 635547, l00 = 0.8, variation="use_threshold",tt = 1e-5)
-#
-# examples_outputs_for_testing <- list(mice_rv_adaptive = mice_rv_adaptive,
-#                                      mice_rv_adjusted = mice_rv_adjusted,
-#                                      crohn_rv1 = crohn_rv1,
-#                                      crohn_rv2 = crohn_rv2)
+test_that("when general dependency is TRUE the adjusted r value increases",{
+  pv1 <- c((1:20)/100)
+  pv2 <- c((1:20)/100)
 
+  general_dep_false <- radjust_sym(pv1,pv2)$results_table$r_value[1]
+  general_dep_true <- radjust_sym(pv1,pv2, general_dependency = T)$results_table$r_value[1]
+  expect_gt(general_dep_true, general_dep_false)
+})
 
+test_that("when directional_rep_claim = T , the direction is infered correctlly",{
+  pv1 <- c((1:20)/100)
+  pv2 <- c((1:20)/100)
+
+  expect_true(all(radjust_sym(pv1,pv2,directional_rep_claim = T)$results_table$Direction == "Left"))
+
+  pv1 <- 1-c((1:20)/100)
+  pv2 <- 1-c((1:20)/100)
+
+  expect_true(all(radjust_sym(pv1,pv2,directional_rep_claim = T)$results_table$Direction == "Right"))
+
+  pv1 <- 1-c((1:20)/100)
+  pv2 <- c((1:20)/100)
+
+  expect_true( nrow(radjust_sym(pv1,pv2,directional_rep_claim = T)$results) == 0 )
+})
+
+test_that("increase in alpha makes more rejections",{
+  pv1 <- c((1:20)/100)
+  pv2 <- c((1:20)/100)
+  default_alpha <- radjust_sym(pv1,pv2)$results_table$r_value
+  larger_alpha <- radjust_sym(pv1,pv2,alpha = 0.1)$results_table$r_value
+  expect_gt(length(larger_alpha), length(default_alpha))
+})
+
+test_that("adaptive variant rejects more (?)",{
+  pv1 <- c((1:20)/100)
+  pv2 <- c((1:20)/100)
+  default_variant <- radjust_sym(pv1,pv2)$results_table$r_value
+  variant_adaptive <- radjust_sym(pv1,pv2,variant = "adaptive")
+  expect_gt(length(variant_adaptive), length(default_variant))
+})
