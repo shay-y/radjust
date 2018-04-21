@@ -24,7 +24,7 @@
 #'     \code{selected2}  \tab the features selected in study 2, same as above. \cr
 #'     \code{n_selected1} \tab  the number of features in study 1. \cr
 #'     \code{n_selected2} \tab  the number of features in study 2. \cr
-#'     \code{pi1}  \tab  the estimate of the true-nulls fraction in the study1.
+#'     \code{pi1}  \tab  the estimate of the true-nulls fraction in the study1.\cr
 #'     \code{pi2}  \tab  the estimate of the true-nulls fraction in the study2.
 #'   }
 #'
