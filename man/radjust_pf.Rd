@@ -31,6 +31,8 @@ controls the FDR at level \code{alpha}, for any type of dependency of the p-valu
 
 \item{threshold}{the selection rule threshold for p-values from the primary study; must be supplied when
 variant 'use_threshold' is selected, otherwise ignored.}
+
+\item{alpha}{EDIT}
 }
 \value{
 vector of length of \code{pv2} and \code{pv2}, containing the r-values.
@@ -49,7 +51,8 @@ The function is also available as a web applet:  \url{http://www.math.tau.ac.il/
 \examples{
  data(crohn)
  rv  <- radjust_pf(pv1 = crohn$pv1, pv2 = crohn$pv1, m = 635547, l00 = 0.8)
- rv2 <- radjust_pf(pv1 = crohn$pv1, pv2 = crohn$pv1, m = 635547, l00 = 0.8, variant="use_threshold",threshold = 1e-5)
+ rv2 <- radjust_pf(pv1 = crohn$pv1, pv2 = crohn$pv1, m = 635547, l00 = 0.8,
+                   variant="use_threshold",threshold = 1e-5)
 
 }
 \seealso{

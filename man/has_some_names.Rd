@@ -13,9 +13,9 @@ has_all_names(x)
 NAs in the values are allowed.
 }
 \examples{
-has_some_names(c(a = 1, b = 2, 3))
-has_some_names(c(a = 1, b = 2, NA))
-has_all_names(c(a = 1, b = 2, 3))
-has_all_names(c(a = 1, b = 2, NA))
+radjust:::has_some_names(c(a = 1, b = 2, 3))
+radjust:::has_some_names(c(a = 1, b = 2, NA))
+radjust:::has_all_names(c(a = 1, b = 2, 3))
+radjust:::has_all_names(c(a = 1, b = 2, NA))
 }
 \keyword{internal}

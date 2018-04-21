@@ -10,6 +10,7 @@
 #' @param input_type whether \code{pv1} and \code{pv2} contain all the p-values from each study or only selected ones(the default).
 #' @param general_dependency TRUE or FALSE, indicating whether to correct for general dependency.
 #' The recommended default value is FALSE (see Details).
+#' @param directional_rep_claim EDIT
 #' @param variant A character string specifying the chosen variant for a potential increase in the number of discoveries.
 #' Must be one of \code{"non-adaptive-with-alpha-selection"} (default), \code{"adaptive"}, or \code{"non-adaptive"} (see Details).
 #' @param alpha the threshold for the selection method.
@@ -79,13 +80,16 @@
 #'
 #' ## run the examples as in the article:
 #'
-#' mice_rv_adaptive <- radjust_sym(pv1, pv2, input_type = "all", directional_rep_claim = T, variant = "adaptive", alpha=0.025)
+#' mice_rv_adaptive <- radjust_sym(pv1, pv2, input_type = "all", directional_rep_claim = TRUE,
+#'                                 variant = "adaptive", alpha=0.025)
 #' print(mice_rv_adaptive)
 #'
-#' mice_rv_non_adpt_sel <- radjust_sym(pv1, pv2, input_type = "all", directional_rep_claim = T, variant = "non-adaptive-with-alpha-selection", alpha=0.025)
+#' mice_rv_non_adpt_sel <- radjust_sym(pv1, pv2, input_type = "all", directional_rep_claim = TRUE,
+#'                                     variant = "non-adaptive-with-alpha-selection", alpha=0.025)
 #' print(mice_rv_non_adpt_sel)
 #'
-#' mice_rv_non_adpt <- radjust_sym(pv1, pv2, input_type = "selected", directional_rep_claim = T, variant = "non-adaptive")
+#' mice_rv_non_adpt <- radjust_sym(pv1, pv2, input_type = "selected", directional_rep_claim = TRUE,
+#'                                 variant = "non-adaptive")
 #' str(mice_rv_non_adpt)
 #'
 
@@ -141,7 +145,7 @@ radjust_sym <- function(pv1,
   ## ---- do the matching (by names or positions) ----
   if (has_all_names(pv1) && has_all_names(pv2))
   {
-    # The following will produce NAs where there is no match, so to get lengths and sums in the next sections we use sum( , na.rm = T).
+    # The following will produce NAs where there is no match, so to get lengths and sums in the next sections we use sum( , na.rm = TRUE).
     pv_union_df <- merge(pv1, pv2 , by.x = names(pv1), by.y = names(pv2))
     pv1 <- pv_union_df$pv1
     names(pv1) <- pv_union_df$names.pv1
@@ -182,10 +186,10 @@ radjust_sym <- function(pv1,
   {
     if (input_type == "all_features")
       stop("The variant cannot be 'non-adaptive' when input_type equals to 'all_features'")
-    s1  <- ifelse(is.na(pv1), NA, T) # "select" all except NAs
-    s2  <- ifelse(is.na(pv2), NA, T)
-    R1 <- sum(s1, na.rm = T)
-    R2 <- sum(s2, na.rm = T)
+    s1  <- ifelse(is.na(pv1), NA, TRUE) # "select" all except NAs
+    s2  <- ifelse(is.na(pv2), NA, TRUE)
+    R1 <- sum(s1, na.rm = TRUE)
+    R2 <- sum(s2, na.rm = TRUE)
     pi1 <- 1
     pi2 <- 1
   } else
@@ -193,8 +197,8 @@ radjust_sym <- function(pv1,
     {
       s1 <- (pv1real <= w1 * alpha)
       s2 <- (pv2real <= (1 - w1) * alpha)
-      R1 <- sum(s1, na.rm = T)
-      R2 <- sum(s2, na.rm = T)
+      R1 <- sum(s1, na.rm = TRUE)
+      R2 <- sum(s2, na.rm = TRUE)
       pi1 <- 1
       pi2 <- 1
     } else
@@ -203,13 +207,13 @@ radjust_sym <- function(pv1,
         s1 <- (pv1real <= alpha)
         s2 <- (pv2real <= alpha)
 
-        R1 <- sum(s1, na.rm = T)
-        R2 <- sum(s2, na.rm = T)
+        R1 <- sum(s1, na.rm = TRUE)
+        R2 <- sum(s2, na.rm = TRUE)
 
         # the fraction of true nulls in study 1 among the selected in 2
-        pi1 <- (1 + sum(pv1tag[s2] > alpha, na.rm = T)) / (R2 * (1 - alpha))
+        pi1 <- (1 + sum(pv1tag[s2] > alpha, na.rm = TRUE)) / (R2 * (1 - alpha))
         # the fraction of true nulls in study 2 among the selected in 1
-        pi2 <- (1 + sum(pv2tag[s1] > alpha, na.rm = T)) / (R1 * (1 - alpha))
+        pi2 <- (1 + sum(pv2tag[s1] > alpha, na.rm = TRUE)) / (R1 * (1 - alpha))
       }
 
   if (directional_rep_claim)
@@ -312,10 +316,10 @@ print.radjust <- function (x, digits_df = max(3L, getOption("digits") - 1L), ...
 #' @title Check Whether a Vector Has All\\Some Names
 #' @description NAs in the values are allowed.
 #' @examples
-#' has_some_names(c(a = 1, b = 2, 3))
-#' has_some_names(c(a = 1, b = 2, NA))
-#' has_all_names(c(a = 1, b = 2, 3))
-#' has_all_names(c(a = 1, b = 2, NA))
+#' radjust:::has_some_names(c(a = 1, b = 2, 3))
+#' radjust:::has_some_names(c(a = 1, b = 2, NA))
+#' radjust:::has_all_names(c(a = 1, b = 2, 3))
+#' radjust:::has_all_names(c(a = 1, b = 2, NA))
 #' @keywords internal
 has_some_names <- function(x) {!is.null(names(x))}
 

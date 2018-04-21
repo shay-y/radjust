@@ -22,6 +22,8 @@ radjust_sym(pv1, pv2, w1 = 0.5, input_type = c("selected_features",
 \item{general_dependency}{TRUE or FALSE, indicating whether to correct for general dependency.
 The recommended default value is FALSE (see Details).}
 
+\item{directional_rep_claim}{EDIT}
+
 \item{variant}{A character string specifying the chosen variant for a potential increase in the number of discoveries.
 Must be one of \code{"non-adaptive-with-alpha-selection"} (default), \code{"adaptive"}, or \code{"non-adaptive"} (see Details).}
 
@@ -91,13 +93,16 @@ pv2 <- ifelse(mice$dir_is_left2, mice$twosided_pv2/2, 1-mice$twosided_pv2/2)
 
 ## run the examples as in the article:
 
-mice_rv_adaptive <- radjust_sym(pv1, pv2, input_type = "all", directional_rep_claim = T, variant = "adaptive", alpha=0.025)
+mice_rv_adaptive <- radjust_sym(pv1, pv2, input_type = "all", directional_rep_claim = TRUE,
+                                variant = "adaptive", alpha=0.025)
 print(mice_rv_adaptive)
 
-mice_rv_non_adpt_sel <- radjust_sym(pv1, pv2, input_type = "all", directional_rep_claim = T, variant = "non-adaptive-with-alpha-selection", alpha=0.025)
+mice_rv_non_adpt_sel <- radjust_sym(pv1, pv2, input_type = "all", directional_rep_claim = TRUE,
+                                    variant = "non-adaptive-with-alpha-selection", alpha=0.025)
 print(mice_rv_non_adpt_sel)
 
-mice_rv_non_adpt <- radjust_sym(pv1, pv2, input_type = "selected", directional_rep_claim = T, variant = "non-adaptive")
+mice_rv_non_adpt <- radjust_sym(pv1, pv2, input_type = "selected", directional_rep_claim = TRUE,
+                                variant = "non-adaptive")
 str(mice_rv_non_adpt)
 
 }

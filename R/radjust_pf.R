@@ -23,6 +23,7 @@
 #'  controls the FDR at level \code{alpha}, for any type of dependency of the p-values in the primary study.
 #' @param threshold  the selection rule threshold for p-values from the primary study; must be supplied when
 #'  variant 'use_threshold' is selected, otherwise ignored.
+#' @param alpha EDIT
 #'
 #' @return vector of length of \code{pv2} and \code{pv2}, containing the r-values.
 #'
@@ -34,9 +35,11 @@
 #' @examples
 #'  data(crohn)
 #'  rv  <- radjust_pf(pv1 = crohn$pv1, pv2 = crohn$pv1, m = 635547, l00 = 0.8)
-#'  rv2 <- radjust_pf(pv1 = crohn$pv1, pv2 = crohn$pv1, m = 635547, l00 = 0.8, variant="use_threshold",threshold = 1e-5)
+#'  rv2 <- radjust_pf(pv1 = crohn$pv1, pv2 = crohn$pv1, m = 635547, l00 = 0.8,
+#'                    variant="use_threshold",threshold = 1e-5)
 #'
 #' @seealso \code{\link{radjust_sym}} for replicability analysis in two symmetric design (EDIT)
+#' @importFrom stats uniroot
 #' @export
 
 radjust_pf <- function (pv1, pv2, m, c2 = 0.5, l00= 0, variant = c("none","general_dependency","use_threshold"), threshold = NULL, alpha = 0.05)
