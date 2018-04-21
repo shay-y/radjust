@@ -13,49 +13,50 @@
 #' @param l00   a lower bound of the fraction of features (out of m) with true null hypotheses in both studies.
 #'   For example, for GWAS on the whole genome, the choice of 0.8 is conservative
 #'   in typical applications.
-#' @param variation
+#' @param variant
 #'  \describe{
 #'     \item{none}{the default.}
-#'     \item{use_m_star}{use \eqn{m^*=m\sum_{i=1}^{m}\frac{1}{i}}{m*=m*sum(1/i)} modification of \code{m}.}
-#'     \item{use_threshold}{c1 is computed given the threshold \code{tt}.}
+#'     \item{general_dependency}{use \eqn{m^*=m\sum_{i=1}^{m}\frac{1}{i}}{m*=m*sum(1/i)} modification of \code{m}.}
+#'     \item{use_threshold}{c1 is computed given the \code{threshold} value.}
 #'  }
-#'  Both variations guarantee that the procedure that decleares all r-values below \code{alpha} as replicability claims,
+#'  Both variants guarantee that the procedure that decleares all r-values below \code{alpha} as replicability claims,
 #'  controls the FDR at level \code{alpha}, for any type of dependency of the p-values in the primary study.
-#' @param tt  the selection rule threshold for p-values from the primary study; must be supplied when
-#'  variation 'use_threshold' is selected, otherwise ignored.
+#' @param threshold  the selection rule threshold for p-values from the primary study; must be supplied when
+#'  variant 'use_threshold' is selected, otherwise ignored.
 #'
 #' @return vector of length of \code{pv2} and \code{pv2}, containing the r-values.
 #'
 #' @details EDIT  extended details about the function.
-#'  
+#'
 #' @note The function is also available as a web applet:  \url{http://www.math.tau.ac.il/~ruheller/App.html}
 #'
 #'
 #' @examples
 #'  data(crohn)
 #'  rv  <- radjust_pf(pv1 = crohn$pv1, pv2 = crohn$pv1, m = 635547, l00 = 0.8)
-#'  rv2 <- radjust_pf(pv1 = crohn$pv1, pv2 = crohn$pv1, m = 635547, l00 = 0.8, variation="use_threshold",tt = 1e-5)
+#'  rv2 <- radjust_pf(pv1 = crohn$pv1, pv2 = crohn$pv1, m = 635547, l00 = 0.8, variant="use_threshold",threshold = 1e-5)
 #'
 #' @seealso \code{\link{radjust_sym}} for replicability analysis in two symmetric design (EDIT)
 #' @export
 
-radjust_pf <- function (pv1, pv2, m, c2 = 0.5, l00= 0, variation = c("none","use_m_star","use_threshold"), tt = NULL, alpha = 0.05)
+radjust_pf <- function (pv1, pv2, m, c2 = 0.5, l00= 0, variant = c("none","general_dependency","use_threshold"), threshold = NULL, alpha = 0.05)
 {
-  variation <- match.arg(variation)
+  variant <- match.arg(variant)
 
-  if (variation != "use_threshold" & !is.null(tt))
-    warning("threshold tt is ignored")
-  if (variation == "use_threshold" & !is.null(tt))
+  if (variant != "use_threshold" & !is.null(threshold))
+    warning("threshold value is ignored")
+  if (variant == "use_threshold" & !is.null(threshold))
   {
-    if (tt <= (1-c2)/(1-l00*(1-c2*alpha)) * alpha/m )
+    if (threshold <= (1-c2)/(1-l00*(1-c2*alpha)) * alpha/m )
     {
       warning("since t < c(q)q/m, no modification to the original r-value computation was necessary (see section Derivation & Properties in the article)")
-      variation <- "none"
+      variant <- "none"
     }
-    if (tt >= (1-c2)/(1-l00*(1-c2*alpha))*alpha/(1+sum(1/(1:(m-1)))))
-      warning("for the selected threshold t, the 'use_threshold' variation won't lead\nto more discoveries than the 'use_m_star' variation.")
+    if (threshold >= (1-c2)/(1-l00*(1-c2*alpha))*alpha/(1+sum(1/(1:(m-1)))))
+      warning("for the selected threshold t, the 'use_threshold' variant won't lead\nto more discoveries than the 'general_dependency' variant.")
   }
-  if (variation == "use_m_star") m <- m*sum(1L/(1L:m))
+  if (variant == "general_dependency") m <- m*sum(1L/(1L:m))
+
   k <- length(pv1)
 
   # ---- input validations: ----
@@ -73,34 +74,34 @@ radjust_pf <- function (pv1, pv2, m, c2 = 0.5, l00= 0, variation = c("none","use
     stop("NA's are not allowed as p-values")
   if (any(c(pv1,pv2)>1) | any(c(pv1,pv2)<=0))
     stop("p-values must be in the interval (0,1]")
-  if (variation == "use_threshold" & is.null(tt))
-    stop("specify threshold tt")
+  if (variant == "use_threshold" & is.null(threshold))
+    stop("specify threshold value")
 
   # ---- function definition: compute r-value of given value of x: ----
   radjust_pf_x <- function (x) {
-    c1 <- switch(variation,
+    c1 <- switch(variant,
                  none       = (1-c2)/(1-l00*(1-c2*x)),
-                 use_m_star = (1-c2)/(1-l00*(1-c2*x)),
+                 general_dependency = (1-c2)/(1-l00*(1-c2*x)),
                  use_threshold = {
-                   if (tt <= (1-c2)/(1-l00*(1-c2*x)) * x/m)
+                   if (threshold <= (1-c2)/(1-l00*(1-c2*x)) * x/m)
                      (1-c2)/(1-l00*(1-c2*x))
                    else
                    {
                      lower <- 1e-6 ; upper <- (1-c2)/(1-l00*(1-c2*x))
                      f <- function(a)
                      {
-                       if (tt*m/(a*x) < 10)
+                       if (threshold*m/(a*x) < 10)
                        {
-                         a*(1+sum(1/(1:(ceiling(tt*m/(a*x)-1))))) - (1-c2)/(1-l00*(1-c2*x))
+                         a*(1+sum(1/(1:(ceiling(threshold*m/(a*x)-1))))) - (1-c2)/(1-l00*(1-c2*x))
                        }
                        else
                        {
-                         a*(1-digamma(1)+1/(2*ceiling(tt*m/(a*x)-1))+log(ceiling(tt*m/(a*x)-1))) - (1-c2)/(1-l00*(1-c2*x))
+                         a*(1-digamma(1)+1/(2*ceiling(threshold*m/(a*x)-1))+log(ceiling(threshold*m/(a*x)-1))) - (1-c2)/(1-l00*(1-c2*x))
                        }
                      }
 
                      c1_sol1 <- uniroot(f,c(lower,upper))
-                     next_step <- tt*m/(ceiling(tt*m/(c1_sol1$root*x))*x)
+                     next_step <- threshold*m/(ceiling(threshold*m/(c1_sol1$root*x))*x)
                      if (f(next_step)<=0)
                      {
                        c1_sol2 <- uniroot(f,c(next_step,upper))
