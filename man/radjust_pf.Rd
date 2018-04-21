@@ -4,8 +4,8 @@
 \alias{radjust_pf}
 \title{Adjust p-values for Replicability across (Independent) Primary and Follow-up Studies with Multiple Endpoints}
 \usage{
-radjust_pf(pv1, pv2, m, c2 = 0.5, l00 = 0, variation = c("none",
-  "use_m_star", "use_threshold"), tt = NULL, alpha = 0.05)
+radjust_pf(pv1, pv2, m, c2 = 0.5, l00 = 0, variant = c("none",
+  "general_dependency", "use_threshold"), threshold = NULL, alpha = 0.05)
 }
 \arguments{
 \item{pv1, pv2}{numeric vectors, of the same length, of the p-values from the from the primary study (\code{pv1}) with
@@ -21,16 +21,16 @@ similar power to procedure with the optimal value (which is unknown for real dat
 For example, for GWAS on the whole genome, the choice of 0.8 is conservative
 in typical applications.}
 
-\item{variation}{\describe{
+\item{variant}{\describe{
    \item{none}{the default.}
-   \item{use_m_star}{use \eqn{m^*=m\sum_{i=1}^{m}\frac{1}{i}}{m*=m*sum(1/i)} modification of \code{m}.}
-   \item{use_threshold}{c1 is computed given the threshold \code{tt}.}
+   \item{general_dependency}{use \eqn{m^*=m\sum_{i=1}^{m}\frac{1}{i}}{m*=m*sum(1/i)} modification of \code{m}.}
+   \item{use_threshold}{c1 is computed given the \code{threshold} value.}
 }
-Both variations guarantee that the procedure that decleares all r-values below \code{alpha} as replicability claims,
+Both variants guarantee that the procedure that decleares all r-values below \code{alpha} as replicability claims,
 controls the FDR at level \code{alpha}, for any type of dependency of the p-values in the primary study.}
 
-\item{tt}{the selection rule threshold for p-values from the primary study; must be supplied when
-variation 'use_threshold' is selected, otherwise ignored.}
+\item{threshold}{the selection rule threshold for p-values from the primary study; must be supplied when
+variant 'use_threshold' is selected, otherwise ignored.}
 }
 \value{
 vector of length of \code{pv2} and \code{pv2}, containing the r-values.
@@ -49,7 +49,7 @@ The function is also available as a web applet:  \url{http://www.math.tau.ac.il/
 \examples{
  data(crohn)
  rv  <- radjust_pf(pv1 = crohn$pv1, pv2 = crohn$pv1, m = 635547, l00 = 0.8)
- rv2 <- radjust_pf(pv1 = crohn$pv1, pv2 = crohn$pv1, m = 635547, l00 = 0.8, variation="use_threshold",tt = 1e-5)
+ rv2 <- radjust_pf(pv1 = crohn$pv1, pv2 = crohn$pv1, m = 635547, l00 = 0.8, variant="use_threshold",threshold = 1e-5)
 
 }
 \seealso{
