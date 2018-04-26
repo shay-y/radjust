@@ -1,22 +1,21 @@
 #' @title Adjust p-values for Replicability across (Independent) Primary and Follow-up Studies with Multiple Endpoints
 #'
-#' @description The function computes r-values given two vectors of p-values from primary and
-#'  follow-up studies. The r-values assess the False Discovery Rate (FDR) of repilcability
-#'  claims across the primary and follow-up studies.
-
-#' @param pv1,pv2 numeric vectors, of the same length, of the p-values from the from the primary study (\code{pv1}) with
-#'  the corresponding p-values from the follow-up study (\code{pv2}).
-#' @param m     the number of features examined in the primary study (can be bigger than \code{length(pv1)}).
-#' @param c2    the relative boost to the p-values from the \strong{primary} study.
+#' @description Given two vectors of p-values from the primary and follow-up studyies, returns the adjusted p-values for false
+#' discovery rate control on replicability claims. The p-value vectors are only of features selected for follow-up.
+#'
+#' @param pv1 numeric vector of p-values from the from the primary study  which
+#'  correspond ot the p-values from the follow-up study (\code{pv2}).
+#' @param pv2 numeric vector of p-values from the follow-up study.
+#' @param m     the number of features examined in the primary study (> \code{length(pv1)}).
+#' @param c2    the relative boost to the p-values from the \strong{follow-up} study.
 #'  \code{c2 = 0.5} (the default) is recommended. It was observed in simulations to yield
 #'  similar power to procedure with the optimal value (which is unknown for real data).
 #' @param l00   a lower bound of the fraction of features (out of m) with true null hypotheses in both studies.
-#'   For example, for GWAS on the whole genome, the choice of 0.8 is conservative
-#'   in typical applications.
+#'   For example, for GWAS on the whole genome, the choice of 0.8 is conservative in typical applications.
 #' @param variant
 #'  \describe{
 #'     \item{none}{the default.}
-#'     \item{general_dependency}{use \eqn{m^*=m\sum_{i=1}^{m}\frac{1}{i}}{m*=m*sum(1/i)} modification of \code{m}.}
+#'     \item{general_dependency}{use \eqn{m^*=m\sum_{i=1}^{m}\frac{1}{i}}{m*=m*sum(1/i)} instead of \code{m}.}
 #'     \item{use_threshold}{c1 is computed given the \code{threshold} value.}
 #'  }
 #'  Both variants guarantee that the procedure that decleares all r-values below \code{alpha} as replicability claims,
@@ -24,9 +23,14 @@
 #' @param threshold  the selection rule threshold for p-values from the primary study; must be supplied when
 #'  variant 'use_threshold' is selected, otherwise ignored.
 #'
-#' @return vector of length of \code{pv2} and \code{pv2}, containing the r-values.
+#' @return vector of length of \code{pv1} and \code{pv2}, containing the r-values.
 #'
-#' @details EDIT  extended details about the function.
+#' @details When many hypotheses are simultaneously examined in a primary study, and then a subset of hypotheses
+#'  are forwarded for follow-up in an independent study, it is of interest to know which findings are replicated across studies.
+#'  As a measure of replicability of significance, we compute the r-value, i.e. the FDR adjusted replicability p-value, for each hypothesis followed-up.
+#'  This measure is different than the FDR adjusted p-value in a typical meta-analysis, where a p-value close to zero in one of
+#'  the studies is enough to declare the finding as highly significant. The FDR r-value for a feature is the smallest FDR level
+#'  at which we can say that the finding is among the replicated ones.
 #'
 #' @note The function is also available as a web applet:  \url{http://www.math.tau.ac.il/~ruheller/App.html}
 #'
@@ -36,7 +40,7 @@
 #'  rv  <- radjust_pf(pv1 = crohn$pv1, pv2 = crohn$pv1, m = 635547, l00 = 0.8)
 #'  rv2 <- radjust_pf(pv1 = crohn$pv1, pv2 = crohn$pv1, m = 635547, l00 = 0.8, variant="use_threshold",threshold = 1e-5)
 #'
-#' @seealso \code{\link{radjust_sym}} for replicability analysis in two symmetric design (EDIT)
+#' @seealso \code{\link{radjust_sym}} for replicability analysis in two studies, with no division to primary and follow-up.
 #' @export
 
 radjust_pf <- function (pv1, pv2, m, c2 = 0.5, l00= 0, variant = c("none","general_dependency","use_threshold"), threshold = NULL, alpha = 0.05)
