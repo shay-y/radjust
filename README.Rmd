@@ -1,7 +1,5 @@
 ---
-output:
-  md_document:
-    variant: markdown_github
+output: github_document
 ---
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/radjust)](https://cran.r-project.org/package=radjust)
@@ -10,22 +8,45 @@ output:
 
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
+  collapse = FALSE,
   comment = "#>",
   fig.path = "README-"
 )
 ```
 
-# radjust
+### radjust: Replicability Adjusted p-values for Two Independent Studies with Multiple Endpoints
 
-The goal of radjust is to ... EDIT
+This package provides the adjusted p-values for the null hypothesis of no replicability across studies for two study designs: a primary and follow-up study, where the features in the follow-up study are selected from the primary study; two independent studies, where the features for replicability are first selected in each study separately. The latter design is the one encountered in typical meta-analysis of two studies, but the inference is for replicability rather than for identifying the features that are nonnull in at least one study. 
 
-## Example
+#### Examples
 
-This is a basic example which shows you how to solve a common problem:
+Two independent studies:
 
-```{r example}
-## basic example code
+```{r example1}
 
-EDIT
+library(radjust)
+
+## transform the example two-sided p-values to one-sided in the same direction (left):
+## (we use the direction of the test statistic to do so and assume that it is continuous)
+pv1 <- ifelse(mice$dir_is_left1, mice$twosided_pv1/2, 1-mice$twosided_pv1/2)
+pv2 <- ifelse(mice$dir_is_left2, mice$twosided_pv2/2, 1-mice$twosided_pv2/2)
+
+radjust_sym(pv1, pv2, input_type = "all", directional_rep_claim = TRUE, variant = "adaptive", alpha=0.025)
 ```
+
+Primary and follow-up studies:
+
+```{r example2}
+rv  <- radjust_pf(pv1 = crohn$pv1, pv2 = crohn$pv1, m = 635547)
+head(rv)
+```
+
+#### Installation
+
+You can install radjust from github with:
+
+```{r gh-installation, eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("shay-y/radjust")
+```
+
