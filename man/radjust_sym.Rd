@@ -48,11 +48,11 @@ The third element in the list, \code{results_table}, includes the following colu
 
   \tabular{lll}{
     \code{name}         \tab char.   \tab the name of the feature as extracted from the named vectors, or the location, if the input vectors are not named. \cr
-    \code{p.value.1}    \tab numeric \tab the one-sided p-value from study 1 as inputed (denoted by \code{pv1}). In the case of \code{directional_rep_claim==TRUE} the one-sided p-values in the direction of effect is presented (i.e, \code{pmin(pv1,1-pv1)}). \cr
-    \code{p.value.2}    \tab numeric \tab same as in \code{p.value.1}. \cr
+    \code{p.value.1}    \tab numeric \tab the one-sided p-value from study 1 as inputed (denoted by \code{pv1}). In the case of \code{directional_rep_claim==TRUE} the one-sided p-values in the direction of effect is presented (i.e, \code{min(pv1,1-pv1)}). \cr
+    \code{p.value.2}    \tab numeric \tab the one-sided p-value from study 2 as inputed (denoted by \code{pv2}). In the case of \code{directional_rep_claim==TRUE} the one-sided p-values in the direction of effect is presented (i.e, \code{min(pv2,1-pv2)}).  \cr
     \code{r.value}      \tab numeric \tab the replicability adjusted p-value (= r-value). \cr
-    \code{Direction}    \tab char.   \tab the direction of the replicability claim, when \code{directional_rep_claim==TRUE}. \cr
-    \code{Significant}  \tab char.   \tab a notion whether the replicability claim is significant, when \code{variant!="non-adaptive"}.
+    \code{Direction}    \tab char.   \tab the direction of the replicability claim, when \code{directional_rep_claim = TRUE}. \cr
+    \code{Significant}  \tab char.   \tab indicates which replicability claimes are significant at level \eqn{\alpha}, when \code{variant} is set to \code{"adaptive"} or \code{"non-adaptive-with-alpha-selection"}.
   }
 }
 \description{
@@ -60,27 +60,29 @@ Given two vectors of p-values from two independent studies, returns the adjusted
  false discovery rate control on replicability claims.
 }
 \details{
-For FDR control at level \eqn{\alpha} on replicability claims, declare all features with \strong{\eqn{r}-value} at most \eqn{\alpha}
-as replicated. In addition, the discoveries from study 1 among the replicability claims have an FDR control guarantee at level \eqn{w_{1}\alpha}{w1 * \alpha}.
- Similarly, the discoveries from study 2 among the replicability claims have an FDR control guarantee at level \eqn{(1-w_{1})\alpha}{(1-w1) * \alpha}. Setting
- a value of \eqn{w_{1}}{w1} different than half is appropriate if stricter FDR control is desired for one of the studies.
+For FDR control at level \eqn{\alpha} on replicability claims, all features with \strong{\eqn{r}-value} at most \eqn{\alpha} are declared
+ as replicated.
+ In addition, the discoveries from study 1 among the replicability claims have an FDR control guarantee at level \eqn{w_{1}\alpha}{w1 * \alpha}.
+ Similarly, the discoveries from study 2 among the replicability claims have an FDR control guarantee at level \eqn{(1-w_{1})\alpha}{(1-w1) * \alpha}.
+
+ Setting \code{w1} to a value different than half is appropriate for stricter FDR control in one of the studies.
  For example, if study two has a much larger sample size than study one (and both studies examine the same problem), then
  setting \eqn{w_{1} > 0.5}{w1 > 0.5} will provide a stricter FDR control for the larger study and greater power for the replicability analysis,
-  see Bogomolov and Heller (2018) for details.
+ see Bogomolov and Heller (2018) for details.
 
-  The theoretical FDR control guarantees assume independence within each vector of p-values. However, empirical
-  investigations suggest that the method is robust to deviations from independence. In practice, we recommend using it whenever the
-  Benjamini-Hochberg procedure is appropriate for use with single studies, as this procedure can be viewed as a two-dimensional
+ The theoretical FDR control guarantees assume independence within each vector of p-values. However, empirical
+ investigations suggest that the method is robust to deviations from independence. In practice, we recommend using it whenever the
+ Benjamini-Hochberg procedure is appropriate for use with single studies, as this procedure can be viewed as a two-dimensional
  Benjamini-Hochberg procedure which enjoys similar robustness properties. For general dependence, we provide the option to apply
  a more conservative procedure with theoretical FDR control guarantee for any type of dependence for the non-adaptive procedure,
  by setting  \code{general_dependency} to TRUE.
 
-If \code{variant} is \code{"non-adaptive-with-alpha-selection"}, then for a user specified \code{alpha} (default 0.05) only p-values from
-study one below \eqn{w_{1}\alpha}{w1 * \alpha} and from study
-two below \eqn{(1-w_{1})\alpha}{(1-w1) * \alpha} are considered for replicability analysis. This additional step prevents
-including in the selected sets features that cannot be discovered as replicability claims at the nominal FDR level
-\eqn{\alpha}, thus reducing the multiple adjustment necessary for replicability analysis.  If \code{variant} is \code{"adaptive"}, then for a user specified \code{alpha}
-the adaptive replicability analysis procedure is applied on the dataset, see Bogomolov and Heller (2018) for details.
+ If \code{variant} is \code{"non-adaptive-with-alpha-selection"}, then for a user specified \code{alpha} (default 0.05) only p-values from
+ study one below \eqn{w_{1}\alpha}{w1 * \alpha} and from study
+ two below \eqn{(1-w_{1})\alpha}{(1-w1) * \alpha} are considered for replicability analysis. This additional step prevents
+ including in the selected sets features that cannot be discovered as replicability claims at the nominal FDR level
+ \eqn{\alpha}, thus reducing the multiple adjustment necessary for replicability analysis.  If \code{variant} is \code{"adaptive"}, then for a user specified \code{alpha}
+ the adaptive replicability analysis procedure is applied on the dataset, see Bogomolov and Heller (2018) for details.
 }
 \examples{
 

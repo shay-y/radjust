@@ -4,14 +4,15 @@
 \name{crohn}
 \alias{crohn}
 \title{EDIT}
-\format{A data frame with 3 rows and 12X columns:
+\format{A data frame with 126 rows and 3 columns:
 \tabular{lll}{
-\code{index} \tab integer \tab just the row number. \cr    
-\code{pv1}   \tab numeric \tab p-value from study 1. \cr    
+\code{index} \tab integer \tab just the row number. \cr
+\code{pv1}   \tab numeric \tab p-value from study 1. \cr
 \code{pv2}   \tab numeric \tab p-value from study 2.
 }}
 \source{
-\url{} <- EDIT optional, Do we have an online source of the data?
+Barrett, Jeffrey C., et al. "Genome-wide association defines more than 30 distinct susceptibility loci for
+ Crohn's disease." Nature genetics 40.8 (2008): 955.
 }
 \usage{
 crohn
@@ -20,8 +21,8 @@ crohn
 EDIT ...
 }
 \references{
-Richter, S. Helene, et al. "Effect of population heterogenization on the reproducibility of mouse behavior:
- a multi-laboratory study." PLoS One 6.1 (2011): e16461.
+Bogomolov, M. and Heller, R. (2013). Discovering findings that replicate from a primary study of high dimension to a follow-up study.
+Journal of the American Statistical Association, Vol. 108, No. 504, Pp. 1480-1492.
 }
 \seealso{
 the example in \code{\link{radjust_pf}} uses this data.

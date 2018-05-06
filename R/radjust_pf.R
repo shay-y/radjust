@@ -42,12 +42,8 @@
 #'  rv2 <- radjust_pf(pv1 = crohn$pv1, pv2 = crohn$pv1, m = 635547, l00 = 0.8,
 #'                    variant="use_threshold",threshold = 1e-5)
 #'
-<<<<<<< HEAD
 #' @seealso \code{\link{radjust_sym}} for replicability analysis in two symmetric design (EDIT)
 #' @importFrom stats uniroot
-=======
-#' @seealso \code{\link{radjust_sym}} for replicability analysis in two studies, with no division to primary and follow-up.
->>>>>>> e7b6bc15508e614e9989d98d01c37a1d85605633
 #' @export
 
 radjust_pf <- function (pv1, pv2, m, c2 = 0.5, l00= 0, variant = c("none","general_dependency","use_threshold"), threshold = NULL, alpha = 0.05)

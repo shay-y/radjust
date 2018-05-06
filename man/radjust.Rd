@@ -5,6 +5,3 @@
 \alias{radjust}
 \alias{radjust-package}
 \title{radjust: Replicability Adjusted p-values for Two Independent Studies with Multiple Endpoints}
-\description{
-EDIT You can copy directly from the 'Description:'' field in the DESCRIPTION file.
-}
