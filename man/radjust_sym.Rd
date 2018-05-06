@@ -40,15 +40,15 @@ The function returns a list with the following elements:
     \code{selected2}  \tab the features selected in study 2, same as above. \cr
     \code{n_selected1} \tab  the number of features in study 1. \cr
     \code{n_selected2} \tab  the number of features in study 2. \cr
-    \code{pi1}  \tab  the estimate of the true-nulls fraction in the study1.\cr
-    \code{pi2}  \tab  the estimate of the true-nulls fraction in the study2.
+    \code{pi1}  \tab  the estimate of the true-nulls fraction in the study1, when \code{variant = "adaptive"}.\cr
+    \code{pi2}  \tab  the estimate of the true-nulls fraction in the study2, when \code{variant = "adaptive"}.
   }
 
-The third element in the list, \code{results_table}, includes the following columns:#'
+The third element in the list, \code{results_table}, includes the following columns:
 
   \tabular{lll}{
     \code{name}         \tab char.   \tab the name of the feature as extracted from the named vectors, or the location, if the input vectors are not named. \cr
-    \code{p.value.1}    \tab numeric \tab the one-sided p-value from study 1 as inputed. In the case of \code{directional_rep_claim==TRUE} the 'real' one-sided p-values is presented, i.e: \code{pmin(pv1,1-pv1}. \cr
+    \code{p.value.1}    \tab numeric \tab the one-sided p-value from study 1 as inputed (denoted by \code{pv1}). In the case of \code{directional_rep_claim==TRUE} the one-sided p-values in the direction of effect is presented (i.e, \code{pmin(pv1,1-pv1)}). \cr
     \code{p.value.2}    \tab numeric \tab same as in \code{p.value.1}. \cr
     \code{r.value}      \tab numeric \tab the replicability adjusted p-value (= r-value). \cr
     \code{Direction}    \tab char.   \tab the direction of the replicability claim, when \code{directional_rep_claim==TRUE}. \cr
