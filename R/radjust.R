@@ -6,16 +6,24 @@ NULL
 
 #' @title p-values of 29 Behavioural Measures in Two Studies
 #'
-#' @description EDIT ... note that the table contains two-sided p-values. To transform all
+#' @description In different laboratories, the comparison of
+#'  behaviours of the same two strains of mice may lead to opposite conclusions that are both statistically significant. An explanation may be the different laboratory environment, i.e., personnel, equipment, or measurement techniques,
+#' affecting differently the study strains.  This data set provides the p-values for testing the association of mice strain with  29 behavioural
+#' measures from five commonly used behavioural tests  in
+#' two laboratories: the laboratory of H.
+#' Wurbel at the University of Giessen, and the
+#' laboratory of P. Gass at the  Central Institute of Mental Health,
+#' Mannheim.
+#'The data table contains two-sided p-values. To transform all
 #'  the two-sided p-values to one sided in the same direction, see the example in \code{\link{radjust_sym}}.
 #'
 #' @format A data frame with 29 rows and 5 columns:
 #' \tabular{lll}{
 #' \code{feature_name} \tab char.   \tab The name of the measure and the test, concatenated. \cr
 #' \code{twosided_pv1} \tab numeric \tab the \emph{two-sided} p-value from study 1. \cr
-#' \code{twosided_pv2} \tab numeric \tab EDIT \cr
+#' \code{twosided_pv2} \tab numeric \tab the \emph{two-sided} p-value from study 2. \cr
 #' \code{dir_is_left1} \tab logical \tab whether the direction of the test statistic from study 1 is \emph{left}. \cr
-#' \code{dir_is_left2} \tab logical \tab EDIT
+#' \code{dir_is_left2} \tab logical \tab  whether the direction of the test statistic from study 2 is \emph{right}. \cr
 #' }
 #'
 #' @source Richter, S. Helene, et al. "Effect of population heterogenization on the reproducibility of mouse behavior:
@@ -25,12 +33,17 @@ NULL
 #' @references  Bogomolov, M. and Heller, R. (2018). Assessing replicability of findings across two studies of multiple
 #' features. Biometrika.
 #'
-
+#'
 "mice"
 
-#' @title EDIT
+#' @title p-values of 126 SNPs followed from a primary study to a follow-up study for testing their association
+#' with Crohn's disease.
 #'
-#' @description EDIT ...
+#' @description To discover the associations between SNPs and Crohn's disease, 635547 SNPs were
+#' examined in a primary study. For follow-up, 126 SNPs were measured in an independent study.
+#' The criteria for follow-up were as follows: the two smallest p-values in each distinct region
+#' with primary study p-values below 0.00005.
+#'
 #'
 #' @format A data frame with 126 rows and 3 columns:
 #' \tabular{lll}{
