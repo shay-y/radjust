@@ -86,10 +86,13 @@ test_that("increase in alpha makes more rejections",{
   expect_gt(length(larger_alpha), length(default_alpha))
 })
 
-test_that("adaptive variant rejects more (?)",{
+test_that("adaptive variant rejects more",{
   pv1 <- c((1:20)/100)
   pv2 <- c((1:20)/100)
   default_variant <- radjust_sym(pv1,pv2)$results_table$r_value
-  variant_adaptive <- radjust_sym(pv1,pv2,variant = "adaptive")
+  variant_adaptive <- radjust_sym(pv1,pv2,variant = "adaptive")$results_table$r_value
   expect_gt(length(variant_adaptive), length(default_variant))
 })
+
+test_that("")
+test_that("")
