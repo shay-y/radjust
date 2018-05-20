@@ -1,4 +1,4 @@
-#' @title Adjust p-values for Replicability across (Independent) Primary and Follow-up Studies with Multiple Endpoints
+#' @title Adjust p-values for Replicability across Two Independent, Primary and Follow-up, Studies with Multiple Endpoints
 #'
 #' @description Given two vectors of p-values from the primary and follow-up studyies, returns the adjusted p-values for false
 #' discovery rate control on replicability claims. The p-value vectors are only of features selected for follow-up.
@@ -35,6 +35,8 @@
 #'
 #' @note The function is also available as a web applet:  \url{http://www.math.tau.ac.il/~ruheller/App.html}
 #'
+#' @references Bogomolov, M. and Heller, R. (2013). Discovering findings that replicate from a primary study of high dimension to a follow-up study.
+#' Journal of the American Statistical Association, Vol. 108, No. 504, Pp. 1480-1492.
 #'
 #' @examples
 #'  data(crohn)

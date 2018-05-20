@@ -5,3 +5,6 @@
 \alias{radjust}
 \alias{radjust-package}
 \title{radjust: Replicability Adjusted p-values for Two Independent Studies with Multiple Endpoints}
+\description{
+This package provides the adjusted p-values for the null hypothesis of no replicability across studies for two study designs: a primary and follow-up study, where the features in the follow-up study are selected from the primary study; two independent studies, where the features for replicability are first selected in each study separately. The latter design is the one encountered in typical meta-analysis of two studies, but the inference is for replicability rather than for identifying the features that are nonnull in at least one study.
+}

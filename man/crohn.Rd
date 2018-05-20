@@ -3,7 +3,8 @@
 \docType{data}
 \name{crohn}
 \alias{crohn}
-\title{EDIT}
+\title{p-values of 126 SNPs followed from a primary study to a follow-up study for testing their association
+with Crohn's disease.}
 \format{A data frame with 126 rows and 3 columns:
 \tabular{lll}{
 \code{index} \tab integer \tab just the row number. \cr
@@ -18,7 +19,8 @@ Barrett, Jeffrey C., et al. "Genome-wide association defines more than 30 distin
 crohn
 }
 \description{
-EDIT ...
+To discover the associations between SNPs and Crohn's disease, 635547 SNPs were examined in a primary study. For follow-up, 126 SNPs were measured in an independent study.
+The criteria for follow-up were as follows: the two smallest p-values in each distinct region with primary study p-values below 0.00005.
 }
 \references{
 Bogomolov, M. and Heller, R. (2013). Discovering findings that replicate from a primary study of high dimension to a follow-up study.

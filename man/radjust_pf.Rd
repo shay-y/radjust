@@ -2,7 +2,7 @@
 % Please edit documentation in R/radjust_pf.R
 \name{radjust_pf}
 \alias{radjust_pf}
-\title{Adjust p-values for Replicability across (Independent) Primary and Follow-up Studies with Multiple Endpoints}
+\title{Adjust p-values for Replicability across Two Independent, Primary and Follow-up, Studies with Multiple Endpoints}
 \usage{
 radjust_pf(pv1, pv2, m, c2 = 0.5, l00 = 0, variant = c("none",
   "general_dependency", "use_threshold"), threshold = NULL, alpha = 0.05)
@@ -59,6 +59,10 @@ The function is also available as a web applet:  \url{http://www.math.tau.ac.il/
  rv2 <- radjust_pf(pv1 = crohn$pv1, pv2 = crohn$pv1, m = 635547, l00 = 0.8,
                    variant="use_threshold",threshold = 1e-5)
 
+}
+\references{
+Bogomolov, M. and Heller, R. (2013). Discovering findings that replicate from a primary study of high dimension to a follow-up study.
+Journal of the American Statistical Association, Vol. 108, No. 504, Pp. 1480-1492.
 }
 \seealso{
 \code{\link{radjust_sym}} for replicability analysis in two symmetric design (EDIT)
