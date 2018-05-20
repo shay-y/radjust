@@ -5,28 +5,18 @@
 
 ### radjust: Replicability Adjusted p-values for Two Independent Studies with Multiple Endpoints
 
-Given p-values from two independent studies with multiple endpoints
-(features), the functions in the package return the adjusted p-values
-for false discovery rate control on replicability claims.
+<!--
+Given p-values from two independent studies with multiple endpoints (features), the functions in the package return the adjusted p-values for false discovery rate control on replicability claims. 
 
-In replicability analysis we seek to reject the null hypothesis of no
-replicability in favor of the alternative hypothesis of replicability:
-that the findings were replicated across the studies.  
-We do so by testing for rejection in **both** studies. This is in
-contrast to a typical meta-analysis, where the test can also reject when
-only a single finding is extreme enough.
+In replicability analysis we seek to reject the null hypothesis of no replicability in favor of the alternative hypothesis of replicability: that the findings were replicated across the studies.  
+We do so by testing for rejection in __both__ studies. This is in contrast to a typical meta-analysis, where the test can also reject when only a single finding is extreme enough.
 
-The procedures implemented in the functions guarantee false discovery
-rate control (when testing multiple endpoints in each study) by
-comparing the adjusted p-values to the rate threshold (typically alpha =
-0.05).
+The procedures implemented in the functions guarantee false discovery rate control (when testing multiple endpoints in each study) by comparing the adjusted p-values to the rate threshold (typically alpha = 0.05).
 
-The function `radjust_sym` fits to a design of two studies, where the
-features for replicability are first selected in each study separately.
+The function `radjust_sym` fits to a design of two studies, where the features for replicability are first selected in each study separately. 
 
-The function `radjust_pf` fits to a design of primary and follow-up
-studies, where the features in the follow-up study are selected from the
-primary study.
+The function `radjust_pf` fits to a design of primary and follow-up studies, where the features in the follow-up study are selected from the primary study.
+-->
 
 #### Examples
 
