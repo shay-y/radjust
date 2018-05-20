@@ -4,4 +4,3 @@ example(topic = "radjust_sym", package = "radjust", lib.loc = .libPaths())
 example(topic = "radjust_pf", package = "radjust", lib.loc = .libPaths())
 examples_outputs_for_testing <- mget(ls())
 devtools::use_data(examples_outputs_for_testing, overwrite = T, internal = T)
-
