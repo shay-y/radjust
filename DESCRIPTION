@@ -2,7 +2,7 @@ Package: radjust
 Type: Package
 Title: Replicability Adjusted p-values for Two Independent Studies with Multiple Endpoints
 Version: 0.1.0
-Date: 2018-03-08
+Date: 2018-05-20
 Authors@R:c(
     person("Shay", "Yaacoby", email = "shay66@gmail.com", role = "aut"),
     person("Marina", "Bogomolov", email = "marinabo@technion.ac.il", role = "aut"),
