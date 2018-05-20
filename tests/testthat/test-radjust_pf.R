@@ -3,8 +3,9 @@ test_that(
   "The examples work and the outputs are equal to the saved copies",
   {
     example(topic = "radjust_pf", package = "radjust", lib.loc = .libPaths(), echo = FALSE)
-    expect_equivalent(rv, examples_outputs_for_testing$rv)
-    expect_equivalent(rv2, examples_outputs_for_testing$rv2)
+    eo <- radjust:::examples_outputs_for_testing
+    expect_equivalent(rv, eo$rv)
+    expect_equivalent(rv2, eo$rv2)
 })
 
 test_that(

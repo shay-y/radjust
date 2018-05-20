@@ -5,10 +5,10 @@ test_that(
     sink("NUL")
     suppressMessages(example(topic = "radjust_sym", package = "radjust", lib.loc = .libPaths(), echo = FALSE))
     sink()
-    data(examples_outputs_for_testing)
-    expect_equivalent(mice_rv_adaptive, examples_outputs_for_testing$mice_rv_adaptive)
-    expect_equivalent(mice_rv_non_adpt_sel, examples_outputs_for_testing$mice_rv_non_adpt_sel)
-    expect_equivalent(mice_rv_non_adpt, examples_outputs_for_testing$mice_rv_non_adpt)
+    eo <- radjust:::examples_outputs_for_testing
+    expect_equivalent(mice_rv_adaptive, eo$mice_rv_adaptive)
+    expect_equivalent(mice_rv_non_adpt_sel, eo$mice_rv_non_adpt_sel)
+    expect_equivalent(mice_rv_non_adpt, eo$mice_rv_non_adpt)
 })
 
 test_that(
@@ -94,5 +94,3 @@ test_that("adaptive variant rejects more",{
   expect_gt(length(variant_adaptive), length(default_variant))
 })
 
-test_that("")
-test_that("")
