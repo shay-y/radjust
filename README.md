@@ -5,27 +5,32 @@
 
 ### radjust: Replicability Adjusted p-values for Two Independent Studies with Multiple Endpoints
 
-This package provides the adjusted p-values for the null hypothesis of
-no replicability across studies for two study designs: a primary and
-follow-up study, where the features in the follow-up study are selected
-from the primary study; two independent studies, where the features for
-replicability are first selected in each study separately. The latter
-design is the one encountered in typical meta-analysis of two studies,
-but the inference is for replicability rather than for identifying the
-features that are nonnull in at least one study.
+Given p-values from two independent studies with multiple endpoints
+(features), the functions in the package return the adjusted p-values
+for false discovery rate control on replicability claims.
 
-#### Installation
+In replicability analysis we seek to reject the null hypothesis of no
+replicability in favor of the alternative hypothesis of replicability:
+that the findings were replicated across the studies.  
+We do so by testing for rejection in **both** studies. This is in
+contrast to a typical meta-analysis, where the test can also reject when
+only a single finding is extreme enough.
 
-You can install radjust from github with:
+The procedures implemented in the functions guarantee false discovery
+rate control (when testing multiple endpoints in each study) by
+comparing the adjusted p-values to the rate threshold (typically alpha =
+0.05).
 
-``` r
-# install.packages("devtools")
-devtools::install_github("shay-y/radjust")
-```
+The function `radjust_sym` fits to a design of two studies, where the
+features for replicability are first selected in each study separately.
+
+The function `radjust_pf` fits to a design of primary and follow-up
+studies, where the features in the follow-up study are selected from the
+primary study.
 
 #### Examples
 
-Two independent studies:
+Using `radjust_sym`:
 
 ``` r
 library(radjust)
@@ -77,7 +82,7 @@ radjust_sym(pv1, pv2, input_type = "all", directional_rep_claim = TRUE, variant 
     #> 
     #> 12 features are significant for directional replicability claims (alpha = 0.025).
 
-Primary and follow-up studies:
+Primary and follow-up studies (`radjust_pf`):
 
 ``` r
 rv  <- radjust_pf(pv1 = crohn$pv1, pv2 = crohn$pv1, m = 635547)
@@ -86,3 +91,43 @@ head(rv)
 
     #> [1] 6.419025e-30 2.027395e-28 5.719923e-19 6.380892e-17 6.380892e-17
     #> [6] 2.711667e-16
+
+#### Installation
+
+You can install radjust from github with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("shay-y/radjust")
+```
+
+#### How to cite
+
+Use the `citation()` R function:
+
+``` r
+citation("radjust")
+```
+
+    #> 
+    #> To cite radjust in publications, please use:
+    #> 
+    #>   Shay Yaacoby, Marina Bogomolov and Ruth Heller (2018). radjust:
+    #>   Replicability Adjusted p-values for Two Independent Studies with
+    #>   Multiple Endpoints. R package version 0.1.0.
+    #> 
+    #> To cite radjust_sym(), add:
+    #> 
+    #>   Bogomolov, M. and Heller, R. (2018). Assessing replicability of
+    #>   findings across two studies of multiple features. Biometrika.
+    #> 
+    #> To cite radjust_pf(), add:
+    #> 
+    #>   Bogomolov, M. and Heller, R. (2013). Discovering findings that
+    #>   replicate from a primary study of high dimension to a follow-up
+    #>   study. Journal of the American Statistical Association, Vol.
+    #>   108, No. 504, Pp. 1480-1492.
+    #> 
+    #> To see these entries in BibTeX format, use 'print(<citation>,
+    #> bibtex=TRUE)', 'toBibtex(.)', or set
+    #> 'options(citation.bibtex.max=999)'.
