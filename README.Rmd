@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-### radjust: Replicability Adjusted p-values for Two Independent Studies with Multiple Endpoints
+# radjust: Replicability Adjusted p-values for Two Independent Studies with Multiple Endpoints
 
 Given p-values from two independent studies with multiple endpoints (features), the functions in the package return the adjusted p-values for false discovery rate control on replicability claims. 
 
@@ -28,7 +28,7 @@ The function `radjust_sym` should be used for replicability analysis of two inde
 
 The function `radjust_pf` should be used for replicability analysis of a  primary study and an independent follow-up study, where the features in the follow-up study are selected from the primary study.
 
-#### Examples
+## Examples
 
 Using `radjust_sym`:
 
@@ -51,7 +51,7 @@ rv  <- radjust_pf(pv1 = crohn$pv1, pv2 = crohn$pv1, m = 635547)
 head(rv)
 ```
 
-#### Installation
+## Installation
 
 You can install radjust from github with:
 
@@ -60,7 +60,7 @@ You can install radjust from github with:
 devtools::install_github("shay-y/radjust")
 ```
 
-#### How to cite
+## How to cite
 
 Use the `citation()` R function:
 

@@ -5,7 +5,7 @@ Status](https://travis-ci.org/shay-y/radjust.svg?branch=master)](https://travis-
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-### radjust: Replicability Adjusted p-values for Two Independent Studies with Multiple Endpoints
+# radjust: Replicability Adjusted p-values for Two Independent Studies with Multiple Endpoints
 
 Given p-values from two independent studies with multiple endpoints
 (features), the functions in the package return the adjusted p-values
@@ -33,7 +33,7 @@ The function `radjust_pf` should be used for replicability analysis of a
 primary study and an independent follow-up study, where the features in
 the follow-up study are selected from the primary study.
 
-#### Examples
+## Examples
 
 Using `radjust_sym`:
 
@@ -97,7 +97,7 @@ head(rv)
     > [1] 6.419025e-30 2.027395e-28 5.719923e-19 6.380892e-17 6.380892e-17
     > [6] 2.711667e-16
 
-#### Installation
+## Installation
 
 You can install radjust from github with:
 
@@ -106,7 +106,7 @@ You can install radjust from github with:
 devtools::install_github("shay-y/radjust")
 ```
 
-#### How to cite
+## How to cite
 
 Use the `citation()` R function:
 
