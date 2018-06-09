@@ -11,23 +11,25 @@ radjust_sym(pv1, pv2, w1 = 0.5, input_type = c("selected_features",
   "non-adaptive"), alpha = if (variant == "non-adaptive") NULL else 0.05)
 }
 \arguments{
-\item{pv1, pv2}{numeric vectors of p-values. Can be the selected features from each study (default input type) from the two studies, corresponding to the selected features
-(the default) or all the features from each study. Can be either of the same length (so the same location in each vector corresponds to the same feature) or with names (so the same name in each vector correspond to the same feature).}
+\item{pv1, pv2}{numeric vectors of p-values.
+Can be either the p-values for the selected features from each study (the default input type),
+or the p-values for all the features from each study.
+Can be either of the same length (so the same location in each vector corresponds to the same feature) or with names (so the same name in each vector correspond to the same feature).}
 
 \item{w1}{fraction between zero and one, of the relative weight for the p-values from study 1. Default value is 0.5
 (see Details for other values).}
 
-\item{input_type}{whether \code{pv1} and \code{pv2} contain all the p-values from each study or only selected ones(the default).}
+\item{input_type}{whether \code{pv1} and \code{pv2} contain all the p-values from each study or only the selected ones (the default).}
 
-\item{general_dependency}{TRUE or FALSE, indicating whether to correct for general dependency.
-The recommended default value is FALSE (see Details).}
+\item{general_dependency}{\code{TRUE} or \code{FALSE}, indicating whether to correct for general dependency.
+The recommended default value is \code{FALSE} (see Details).}
 
-\item{directional_rep_claim}{EDIT}
+\item{directional_rep_claim}{Maybe: \code{TRUE} or \code{FALSE}, indicating whether to perform directional replicability analysis. The default value is \code{FALSE}.}
 
 \item{variant}{A character string specifying the chosen variant for a potential increase in the number of discoveries.
 Must be one of \code{"non-adaptive-with-alpha-selection"} (default), \code{"adaptive"}, or \code{"non-adaptive"} (see Details).}
 
-\item{alpha}{the threshold for the selection method.}
+\item{alpha}{The threshold on p-values for selecting the features in each study.}
 }
 \value{
 The function returns a list with the following elements:
@@ -35,24 +37,24 @@ The function returns a list with the following elements:
   \tabular{ll}{
     \code{call}  \tab  the function call. \cr
     \code{inputs}  \tab  a list with the function's input parameters (except \code{pv1} and \code{pv2}). \cr
-    \code{results_table} \tab  a data frame with the features selected in both studies and their r-values. The data frame includes 6 columns: \cr
+    \code{results_table} \tab  a data frame with the features selected in both studies and their r-values (see description below).\cr
     \code{selected1}  \tab the features selected in study 1 (when the variant is either \code{"adaptive"} or \code{"non-adaptive-with-alpha-selection"}). \cr
     \code{selected2}  \tab the features selected in study 2, same as above. \cr
     \code{n_selected1} \tab  the number of features in study 1. \cr
     \code{n_selected2} \tab  the number of features in study 2. \cr
-    \code{pi1}  \tab  the estimate of the true-nulls fraction in the study1, when \code{variant = "adaptive"}.\cr
-    \code{pi2}  \tab  the estimate of the true-nulls fraction in the study2, when \code{variant = "adaptive"}.
+    \code{pi1}  \tab  the estimate of the true-nulls fraction in the study1 among the selected in study 2, when \code{variant = "adaptive"}.\cr
+    \code{pi2}  \tab  the estimate of the true-nulls fraction in the study2 among the selected in study 1, when \code{variant = "adaptive"}.
   }
 
 The third element in the list, \code{results_table}, includes the following columns:
 
   \tabular{lll}{
     \code{name}         \tab char.   \tab the name of the feature as extracted from the named vectors, or the location, if the input vectors are not named. \cr
-    \code{p.value.1}    \tab numeric \tab the one-sided p-value from study 1 as inputed (denoted by \code{pv1}). In the case of \code{directional_rep_claim==TRUE} the one-sided p-values in the direction of effect is presented (i.e, \code{min(pv1,1-pv1)}). \cr
-    \code{p.value.2}    \tab numeric \tab the one-sided p-value from study 2 as inputed (denoted by \code{pv2}). In the case of \code{directional_rep_claim==TRUE} the one-sided p-values in the direction of effect is presented (i.e, \code{min(pv2,1-pv2)}).  \cr
+    \code{p.value.1}    \tab numeric \tab the one-sided p-value from study 1 as inputed (denoted by \code{pv1}). When \code{directional_rep_claim==TRUE} the one-sided p-values in the direction of effect are presented (i.e, \code{min(pv1,1-pv1)}). \cr
+    \code{p.value.2}    \tab numeric \tab the one-sided p-value from study 2 as inputed (denoted by \code{pv2}). When \code{directional_rep_claim==TRUE} the one-sided p-values in the direction of effect are presented (i.e, \code{min(pv2,1-pv2)}).  \cr
     \code{r.value}      \tab numeric \tab the replicability adjusted p-value (= r-value). \cr
     \code{Direction}    \tab char.   \tab the direction of the replicability claim, when \code{directional_rep_claim = TRUE}. \cr
-    \code{Significant}  \tab char.   \tab indicates which replicability claimes are significant at level \eqn{\alpha}, when \code{variant} is set to \code{"adaptive"} or \code{"non-adaptive-with-alpha-selection"}.
+    \code{Significant}  \tab char.   \tab indicates for which features replicability claims can be made at level \eqn{\alpha}, when \code{variant} is set to \code{"adaptive"} or \code{"non-adaptive-with-alpha-selection"}.
   }
 }
 \description{
@@ -74,14 +76,14 @@ For FDR control at level \eqn{\alpha} on replicability claims, all features with
  investigations suggest that the method is robust to deviations from independence. In practice, we recommend using it whenever the
  Benjamini-Hochberg procedure is appropriate for use with single studies, as this procedure can be viewed as a two-dimensional
  Benjamini-Hochberg procedure which enjoys similar robustness properties. For general dependence, we provide the option to apply
- a more conservative procedure with theoretical FDR control guarantee for any type of dependence for the non-adaptive procedure,
+ a more conservative procedure with theoretical FDR control guarantee for any type of dependence,
  by setting  \code{general_dependency} to TRUE.
 
  If \code{variant} is \code{"non-adaptive-with-alpha-selection"}, then for a user specified \code{alpha} (default 0.05) only p-values from
  study one below \eqn{w_{1}\alpha}{w1 * \alpha} and from study
  two below \eqn{(1-w_{1})\alpha}{(1-w1) * \alpha} are considered for replicability analysis. This additional step prevents
  including in the selected sets features that cannot be discovered as replicability claims at the nominal FDR level
- \eqn{\alpha}, thus reducing the multiple adjustment necessary for replicability analysis.  If \code{variant} is \code{"adaptive"}, then for a user specified \code{alpha}
+ \eqn{\alpha}, thus reducing the multiplicity adjustment necessary for replicability analysis.  If \code{variant} is \code{"adaptive"}, then for a user specified \code{alpha}
  the adaptive replicability analysis procedure is applied on the dataset, see Bogomolov and Heller (2018) for details.
 }
 \examples{

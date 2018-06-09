@@ -8,8 +8,8 @@ radjust_pf(pv1, pv2, m, c2 = 0.5, l00 = 0, variant = c("none",
   "general_dependency", "use_threshold"), threshold = NULL, alpha = 0.05)
 }
 \arguments{
-\item{pv1}{numeric vector of p-values from the from the primary study  which
-correspond ot the p-values from the follow-up study (\code{pv2}).}
+\item{pv1}{numeric vector of p-values from the primary study  which
+correspond to the p-values from the follow-up study (\code{pv2}).}
 
 \item{pv2}{numeric vector of p-values from the follow-up study.}
 
@@ -27,20 +27,20 @@ For example, for GWAS on the whole genome, the choice of 0.8 is conservative in 
    \item{general_dependency}{use \eqn{m^*=m\sum_{i=1}^{m}\frac{1}{i}}{m*=m*sum(1/i)} instead of \code{m}.}
    \item{use_threshold}{c1 is computed given the \code{threshold} value.}
 }
-Both variants guarantee that the procedure that decleares all r-values below \code{alpha} as replicability claims,
+Both variants guarantee that the procedure that declares as replicated all features with r-values below \code{alpha},
 controls the FDR at level \code{alpha}, for any type of dependency of the p-values in the primary study.}
 
-\item{threshold}{the selection rule threshold for p-values from the primary study; must be supplied when
+\item{threshold}{the selection threshold for p-values from the primary study; must be supplied when
 variant 'use_threshold' is selected, otherwise ignored.}
 
-\item{alpha}{EDIT}
+\item{alpha}{The FDR level to control.}
 }
 \value{
 vector of length of \code{pv1} and \code{pv2}, containing the r-values.
 }
 \description{
-Given two vectors of p-values from the primary and follow-up studyies, returns the adjusted p-values for false
-discovery rate control on replicability claims. The p-value vectors are only of features selected for follow-up.
+Given two vectors of p-values from the primary and follow-up studies, returns the adjusted p-values for false
+discovery rate control on replicability claims. The p-value vectors are only for features selected for follow-up.
 }
 \details{
 When many hypotheses are simultaneously examined in a primary study, and then a subset of hypotheses
@@ -65,5 +65,5 @@ Bogomolov, M. and Heller, R. (2013). Discovering findings that replicate from a 
 Journal of the American Statistical Association, Vol. 108, No. 504, Pp. 1480-1492.
 }
 \seealso{
-\code{\link{radjust_sym}} for replicability analysis in two symmetric design (EDIT)
+\code{\link{radjust_sym}} for replicability analysis in two symmetric studies.
 }

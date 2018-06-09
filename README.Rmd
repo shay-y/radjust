@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 Given p-values from two independent studies with multiple endpoints (features), the functions in the package return the adjusted p-values for false discovery rate control on replicability claims. 
 
-In replicability analysis we seek to reject the null hypothesis of no replicability in favor of the alternative hypothesis of replicability: that the findings were replicated across the studies.  
+In replicability analysis we seek to reject the null hypothesis of no replicability in favor of the alternative hypothesis of replicability: that the finding replicated across the studies.  
 We do so by testing for signal in both studies. This is in contrast to a typical meta-analysis, where the test can also reject when only a single study has signal. 
 
 The procedures implemented in the functions compute the adjusted p-values for FDR control on replicability claims. By declaring as replicability discoveries the features with adjusted p-values (termed r-values) to the desired nominal level (e.g., 0.05), the FDR on replicability claims is controlled at the nominal level. 

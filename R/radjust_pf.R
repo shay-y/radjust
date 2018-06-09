@@ -1,10 +1,10 @@
 #' @title Adjust p-values for Replicability across Two Independent, Primary and Follow-up, Studies with Multiple Endpoints
 #'
-#' @description Given two vectors of p-values from the primary and follow-up studyies, returns the adjusted p-values for false
-#' discovery rate control on replicability claims. The p-value vectors are only of features selected for follow-up.
+#' @description Given two vectors of p-values from the primary and follow-up studies, returns the adjusted p-values for false
+#' discovery rate control on replicability claims. The p-value vectors are only for features selected for follow-up.
 #'
-#' @param pv1 numeric vector of p-values from the from the primary study  which
-#'  correspond ot the p-values from the follow-up study (\code{pv2}).
+#' @param pv1 numeric vector of p-values from the primary study  which
+#'  correspond to the p-values from the follow-up study (\code{pv2}).
 #' @param pv2 numeric vector of p-values from the follow-up study.
 #' @param m     the number of features examined in the primary study (> \code{length(pv1)}).
 #' @param c2    the relative boost to the p-values from the \strong{follow-up} study.
@@ -18,11 +18,11 @@
 #'     \item{general_dependency}{use \eqn{m^*=m\sum_{i=1}^{m}\frac{1}{i}}{m*=m*sum(1/i)} instead of \code{m}.}
 #'     \item{use_threshold}{c1 is computed given the \code{threshold} value.}
 #'  }
-#'  Both variants guarantee that the procedure that decleares all r-values below \code{alpha} as replicability claims,
+#'  Both variants guarantee that the procedure that declares as replicated all features with r-values below \code{alpha},
 #'  controls the FDR at level \code{alpha}, for any type of dependency of the p-values in the primary study.
-#' @param threshold  the selection rule threshold for p-values from the primary study; must be supplied when
+#' @param threshold  the selection threshold for p-values from the primary study; must be supplied when
 #'  variant 'use_threshold' is selected, otherwise ignored.
-#' @param alpha EDIT
+#' @param alpha The FDR level to control.
 #'
 #' @return vector of length of \code{pv1} and \code{pv2}, containing the r-values.
 #'
@@ -44,7 +44,7 @@
 #'  rv2 <- radjust_pf(pv1 = crohn$pv1, pv2 = crohn$pv1, m = 635547, l00 = 0.8,
 #'                    variant="use_threshold",threshold = 1e-5)
 #'
-#' @seealso \code{\link{radjust_sym}} for replicability analysis in two symmetric design (EDIT)
+#' @seealso \code{\link{radjust_sym}} for replicability analysis in two symmetric studies.
 #' @importFrom stats uniroot
 #' @export
 
