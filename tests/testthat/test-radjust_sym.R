@@ -40,7 +40,7 @@ test_that(
   })
 
 
-test_that( "weight argument functional and its direction is right TODO: verify",{
+test_that( "weight argument functional and its direction is right.",{
   pv1 <- c((1:20)/100)
   pv2 <- c((1:20)/100)
 

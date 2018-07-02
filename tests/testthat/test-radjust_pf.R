@@ -70,7 +70,7 @@ test_that(
   })
 
 
-test_that( "c2 argument functional and its direction is right. TODO: verify",{
+test_that( "c2 argument functional and its direction is right.",{
 
   data(crohn)
   pv1 <- crohn$pv1
