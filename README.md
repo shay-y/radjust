@@ -13,7 +13,7 @@ for false discovery rate control on replicability claims.
 
 In replicability analysis we seek to reject the null hypothesis of no
 replicability in favor of the alternative hypothesis of replicability:
-that the findings were replicated across the studies.  
+that the finding replicated across the studies.  
 We do so by testing for signal in both studies. This is in contrast to a
 typical meta-analysis, where the test can also reject when only a single
 study has signal.
@@ -45,21 +45,21 @@ library(radjust)
 pv1 <- ifelse(mice$dir_is_left1, mice$twosided_pv1/2, 1-mice$twosided_pv1/2)
 pv2 <- ifelse(mice$dir_is_left2, mice$twosided_pv2/2, 1-mice$twosided_pv2/2)
 
-radjust_sym(pv1, pv2, input_type = "all", directional_rep_claim = TRUE, variant = "adaptive", alpha=0.025)
+radjust_sym(pv1, pv2, input_type = "all", directional_rep_claim = TRUE, variant = "adaptive", alpha=0.05)
 ```
 
     > Note: pv1 and pv2 have the same length and don't have names
     >   -> matching features by location.
 
-    > Note: Directional replicability claim option is set to TRUE,
-    >   make sure you have entered the *left* sided p-values.
+    > Note: Directional replicability claim option is set to TRUE.
+    >   Make sure you have entered the *left* sided p-values.
 
     > 
     >   Replicability Analysis
     > 
     > Call:
     > radjust_sym(pv1 = pv1, pv2 = pv2, input_type = "all", directional_rep_claim = TRUE, 
-    >     variant = "adaptive", alpha = 0.025)
+    >     variant = "adaptive", alpha = 0.05)
     > 
     > Selection (adaptive):
     > 20 features selected in study 1.
@@ -67,25 +67,25 @@ radjust_sym(pv1, pv2, input_type = "all", directional_rep_claim = TRUE, variant 
     > 12 features selected in both studies.
     > 
     > Estimates for fraction of nulls among the selected:
-    > 0.4318489 in study 1.
-    > 0.4615385 in study 2.
+    > 0.4432133 in study 1.
+    > 0.4736842 in study 2.
     > 
     > Features selected in both studies:
     >  name    p_value1    p_value2     r_value Direction Significant
-    >     2 1.18873e-03 1.61210e-06 0.003901482      Left           *
-    >     9 6.11236e-03 3.16097e-08 0.012538175      Left           *
-    >    14 4.34268e-05 4.77527e-03 0.012538175      Left           *
-    >    16 5.88782e-03 1.96218e-04 0.012538175      Left           *
-    >    17 1.75750e-02 3.26740e-04 0.026219142     Right            
-    >    20 1.57223e-02 6.52192e-05 0.025800620      Left            
-    >    21 2.64690e-06 2.34075e-02 0.036011533      Left            
-    >    23 3.32734e-09 5.37832e-05 0.000496460      Left           *
-    >    24 6.65468e-09 7.59238e-03 0.015574107      Left           *
-    >    25 3.32734e-09 1.37186e-05 0.000253267      Left           *
-    >    26 6.65468e-09 3.15068e-04 0.001454158      Left           *
-    >    27 6.65468e-09 9.48060e-05 0.000583421      Left           *
+    >     2 1.18873e-03 1.61210e-06 0.004004153      Left           *
+    >     9 6.11236e-03 3.16097e-08 0.012868127      Left           *
+    >    14 4.34268e-05 4.77527e-03 0.012868127      Left           *
+    >    16 5.88782e-03 1.96218e-04 0.012868127      Left           *
+    >    17 1.75750e-02 3.26740e-04 0.026909119     Right           *
+    >    20 1.57223e-02 6.52192e-05 0.026479584      Left           *
+    >    21 2.64690e-06 2.34075e-02 0.036959205      Left           *
+    >    23 3.32734e-09 5.37832e-05 0.000509525      Left           *
+    >    24 6.65468e-09 7.59238e-03 0.015983952      Left           *
+    >    25 3.32734e-09 1.37186e-05 0.000259932      Left           *
+    >    26 6.65468e-09 3.15068e-04 0.001492426      Left           *
+    >    27 6.65468e-09 9.48060e-05 0.000598774      Left           *
     > 
-    > 12 features are significant for directional replicability claims (alpha = 0.025).
+    > 12 features are significant for directional replicability analysis (alpha = 0.05).
 
 Primary and follow-up studies (`radjust_pf`):
 

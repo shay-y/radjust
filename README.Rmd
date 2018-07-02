@@ -41,7 +41,7 @@ library(radjust)
 pv1 <- ifelse(mice$dir_is_left1, mice$twosided_pv1/2, 1-mice$twosided_pv1/2)
 pv2 <- ifelse(mice$dir_is_left2, mice$twosided_pv2/2, 1-mice$twosided_pv2/2)
 
-radjust_sym(pv1, pv2, input_type = "all", directional_rep_claim = TRUE, variant = "adaptive", alpha=0.025)
+radjust_sym(pv1, pv2, input_type = "all", directional_rep_claim = TRUE, variant = "adaptive", alpha=0.05)
 ```
 
 Primary and follow-up studies (`radjust_pf`):
