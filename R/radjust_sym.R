@@ -3,7 +3,7 @@
 #' @description  Given two vectors of p-values from two independent studies, returns the adjusted p-values for
 #'  false discovery rate control on replicability claims.
 #'
-#' @param pv1,pv2 numeric vectors of p-values.
+#' @param pv1,pv2 numeric vectors of p-values. If \code{directional_rep_claim} is \code{TRUE}, they must be left-sided p-values.
 #'  Can be either the p-values for the selected features from each study (the default input type),
 #'  or the p-values for all the features from each study.
 #'  Can be either of the same length (so the same location in each vector corresponds to the same feature) or with names (so the same name in each vector correspond to the same feature).
@@ -12,10 +12,10 @@
 #' @param input_type whether \code{pv1} and \code{pv2} contain all the p-values from each study or only the selected ones (the default).
 #' @param general_dependency \code{TRUE} or \code{FALSE}, indicating whether to correct for general dependency.
 #' The recommended default value is \code{FALSE} (see Details).
-#' @param directional_rep_claim Maybe: \code{TRUE} or \code{FALSE}, indicating whether to perform directional replicability analysis. The default value is \code{FALSE}.
+#' @param directional_rep_claim  \code{TRUE} or \code{FALSE}, indicating whether to perform directional replicability analysis. The default value is \code{FALSE}. If \code{TRUE}, \code{pv1} and \code{pv2} should be left-sided p-values (see Details).
 #' @param variant A character string specifying the chosen variant for a potential increase in the number of discoveries.
 #' Must be one of \code{"non-adaptive-with-alpha-selection"} (default), \code{"adaptive"}, or \code{"non-adaptive"} (see Details).
-#' @param alpha The threshold on p-values for selecting the features in each study.
+#' @param alpha The threshold on p-values for selecting the features in each study (see Details).
 #'
 #' @return The function returns a list with the following elements:
 #'
@@ -59,12 +59,22 @@
 #'  a more conservative procedure with theoretical FDR control guarantee for any type of dependence,
 #'  by setting  \code{general_dependency} to TRUE.
 #'
+#'  If \code{variant} is \code{"non-adaptive"}, then the non-adaptive  replicability analysis procedure of Bogomolov and Heller (2018)
+#'  is applied on the input p-values \code{pv1} and \code{pv2}.
 #'  If \code{variant} is \code{"non-adaptive-with-alpha-selection"}, then for a user specified \code{alpha} (default 0.05) only p-values from
 #'  study one below \eqn{w_{1}\alpha}{w1 * \alpha} and from study
 #'  two below \eqn{(1-w_{1})\alpha}{(1-w1) * \alpha} are considered for replicability analysis. This additional step prevents
 #'  including in the selected sets features that cannot be discovered as replicability claims at the nominal FDR level
-#'  \eqn{\alpha}, thus reducing the multiplicity adjustment necessary for replicability analysis.  If \code{variant} is \code{"adaptive"}, then for a user specified \code{alpha}
+#'  \eqn{\alpha}, thus reducing the multiplicity adjustment necessary for replicability analysis. If \code{variant} is \code{"adaptive"}, then for a user specified \code{alpha}
 #'  the adaptive replicability analysis procedure is applied on the dataset, see Bogomolov and Heller (2018) for details.
+#'
+#' The meaning of the replicability claim for a feature based on its two p-values  if \code{directional_rep_claim} is
+#' \code{FALSE}, is that both null hypotheses  are false (or both alternatives are true).  Setting \code{directional_rep_claim} to
+#' \code{TRUE} is useful if the discoveries of interest are directional but the direction is unknown. For example, a replicability
+#' claim for a feature is the claim that both associations examined for it are positive, or both associations examined for it
+#' are negative, but not that one association is positive and the other negative. For  directional replicability analysis,
+#' the input p-values \code{pv1} and \code{pv2} should be the left-sided input p-values
+#' (left-sided is the choice without loss of generality, since we assume the left and right sided p-values sum to one for each null hypothesis).  should be entered int
 #'
 #' @references Bogomolov, M. and Heller, R. (2018). Assessing replicability of findings across two studies of multiple
 #' features. Biometrika.
@@ -85,11 +95,11 @@
 #' ## run the examples as in the article:
 #'
 #' mice_rv_adaptive <- radjust_sym(pv1, pv2, input_type = "all", directional_rep_claim = TRUE,
-#'                                 variant = "adaptive", alpha=0.025)
+#'                                 variant = "adaptive", alpha=0.05)
 #' print(mice_rv_adaptive)
 #'
 #' mice_rv_non_adpt_sel <- radjust_sym(pv1, pv2, input_type = "all", directional_rep_claim = TRUE,
-#'                                     variant = "non-adaptive-with-alpha-selection", alpha=0.025)
+#'                                     variant = "non-adaptive-with-alpha-selection", alpha=0.05)
 #' print(mice_rv_non_adpt_sel)
 #'
 #' mice_rv_non_adpt <- radjust_sym(pv1, pv2, input_type = "selected", directional_rep_claim = TRUE,
@@ -165,7 +175,6 @@ radjust_sym <- function(pv1,
     message(
       "Note:\tDirectional replicability claim option is set to TRUE.
 \tMake sure you have entered the *left* sided p-values."
-  # TODO: should we allow any side, given it is the same one? this while change line 119 also...
     )
 
     # since the user enters left p-values only, we need the 'real' p-values for some of the calculations.
@@ -239,7 +248,7 @@ radjust_sym <- function(pv1,
   }
 
   ## ---- the adjustment procedure ----
-  z <- pmax(pi1 * d1 * pv1tag * R2 / w1, pi2 * d2 * pv2tag * R1 / (1 - w1))[s12] #TODO: verify that NAs are dropped here
+  z <- pmax(pi1 * d1 * pv1tag * R2 / w1, pi2 * d2 * pv2tag * R1 / (1 - w1))[s12] 
   oz <- order(z, decreasing = TRUE)
   ozr <- order(oz)
   rv <- cummin((z / rank(z, ties.method = "max"))[oz])[ozr]
@@ -257,7 +266,6 @@ radjust_sym <- function(pv1,
   if (directional_rep_claim) tbl_s12$`Direction` <- rep_claim_direction[s12]
 
   if (!(variant == "non-adaptive")) tbl_s12$`Significant` <- ifelse(rv <= alpha,"*","")
-  # TODO: consider to replace to TRUE\FALSE (and use symnum() in th print method).
 
   ## ---- generate the output ----
 
@@ -289,7 +297,6 @@ radjust_sym <- function(pv1,
 
 #' @exportClass radjust
 
-# TODO: document the print method or add to radjust_sym documentation.
 #' @export
 print.radjust <- function (x, digits_df = max(3L, getOption("digits") - 1L), ...)
 {
@@ -311,7 +318,7 @@ print.radjust <- function (x, digits_df = max(3L, getOption("digits") - 1L), ...
   cat("\nFeatures selected in both studies:\n", sep = "")
   print.data.frame(x$results_table, row.names = F, digits = digits_df,...)
   if (x$inputs$variant != "non-adaptive")
-    cat("\n", nrow(x$results_table)," features are significant for",
+    cat("\n", nrow(x$results_table)," features are discovered in the ",
         if (x$inputs$directional_rep_claim) " directional" else "",
         " replicability analysis (alpha = ",x$inputs$alpha,").\n", sep = "")
   invisible(x)
