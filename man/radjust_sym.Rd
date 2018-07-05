@@ -14,7 +14,7 @@ radjust_sym(pv1, pv2, w1 = 0.5, input_type = c("selected_features",
 \item{pv1, pv2}{numeric vectors of p-values. If \code{directional_rep_claim} is \code{TRUE}, they must be left-sided p-values.
 Can be either the p-values for the selected features from each study (the default input type),
 or the p-values for all the features from each study.
-Can be either of the same length (so the same location in each vector corresponds to the same feature) or with names (so the same name in each vector correspond to the same feature).}
+Can be either of the same length (so the same location in each vector corresponds to the same feature) or with names (so the same name in each vector corresponds to the same feature).}
 
 \item{w1}{fraction between zero and one, of the relative weight for the p-values from study 1. Default value is 0.5
 (see Details for other values).}
@@ -29,7 +29,7 @@ The recommended default value is \code{FALSE} (see Details).}
 \item{variant}{A character string specifying the chosen variant for a potential increase in the number of discoveries.
 Must be one of \code{"non-adaptive-with-alpha-selection"} (default), \code{"adaptive"}, or \code{"non-adaptive"} (see Details).}
 
-\item{alpha}{The threshold on p-values for selecting the features in each study (see Details).}
+\item{alpha}{The threshold on p-values for selecting the features in each study and the significance level for replicability analysis (see Details).}
 }
 \value{
 The function returns a list with the following elements:
@@ -40,10 +40,10 @@ The function returns a list with the following elements:
     \code{results_table} \tab  a data frame with the features selected in both studies and their r-values (see description below).\cr
     \code{selected1}  \tab the features selected in study 1 (when the variant is either \code{"adaptive"} or \code{"non-adaptive-with-alpha-selection"}). \cr
     \code{selected2}  \tab the features selected in study 2, same as above. \cr
-    \code{n_selected1} \tab  the number of features in study 1. \cr
-    \code{n_selected2} \tab  the number of features in study 2. \cr
-    \code{pi1}  \tab  the estimate of the true-nulls fraction in the study1 among the selected in study 2, when \code{variant = "adaptive"}.\cr
-    \code{pi2}  \tab  the estimate of the true-nulls fraction in the study2 among the selected in study 1, when \code{variant = "adaptive"}.
+    \code{n_selected1} \tab  the number of selected features in study 1. \cr
+    \code{n_selected2} \tab  the number of selected features in study 2. \cr
+    \code{pi1}  \tab  the estimate of the true-nulls fraction in the study 1 among the selected in study 2, when \code{variant = "adaptive"}.\cr
+    \code{pi2}  \tab  the estimate of the true-nulls fraction in the study 2 among the selected in study 1, when \code{variant = "adaptive"}.
   }
 
 The third element in the list, \code{results_table}, includes the following columns:
@@ -77,7 +77,7 @@ For FDR control at level \eqn{\alpha} on replicability claims, all features with
  Benjamini-Hochberg procedure is appropriate for use with single studies, as this procedure can be viewed as a two-dimensional
  Benjamini-Hochberg procedure which enjoys similar robustness properties. For general dependence, we provide the option to apply
  a more conservative procedure with theoretical FDR control guarantee for any type of dependence,
- by setting  \code{general_dependency} to TRUE.
+ by setting \code{general_dependency} to TRUE.
 
  If \code{variant} is \code{"non-adaptive"}, then the non-adaptive  replicability analysis procedure of Bogomolov and Heller (2018)
  is applied on the input p-values \code{pv1} and \code{pv2}.
@@ -88,13 +88,12 @@ For FDR control at level \eqn{\alpha} on replicability claims, all features with
  \eqn{\alpha}, thus reducing the multiplicity adjustment necessary for replicability analysis. If \code{variant} is \code{"adaptive"}, then for a user specified \code{alpha}
  the adaptive replicability analysis procedure is applied on the dataset, see Bogomolov and Heller (2018) for details.
 
-The meaning of the replicability claim for a feature based on its two p-values  if \code{directional_rep_claim} is
-\code{FALSE}, is that both null hypotheses  are false (or both alternatives are true).  Setting \code{directional_rep_claim} to
-\code{TRUE} is useful if the discoveries of interest are directional but the direction is unknown. For example, a replicability
+The meaning of the replicability claim for a feature if \code{directional_rep_claim} is \code{FALSE}, is that both null hypotheses  are false (or both alternatives are true).  Setting \code{directional_rep_claim} to
+\code{TRUE} is useful if the discoveries of interest are directional but the direction is unknown. For example, a directional replicability
 claim for a feature is the claim that both associations examined for it are positive, or both associations examined for it
 are negative, but not that one association is positive and the other negative. For  directional replicability analysis,
 the input p-values \code{pv1} and \code{pv2} should be the left-sided input p-values
-(left-sided is the choice without loss of generality, since we assume the left and right sided p-values sum to one for each null hypothesis).  should be entered int
+(left-sided is the choice without loss of generality, since we assume the left and right sided p-values sum to one for each null hypothesis).
 }
 \examples{
 
