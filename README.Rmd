@@ -22,7 +22,7 @@ Given p-values from two independent studies with multiple endpoints (features), 
 In replicability analysis we seek to reject the null hypothesis of no replicability in favor of the alternative hypothesis of replicability: that the finding replicated across the studies.  
 We do so by testing for signal in both studies. This is in contrast to a typical meta-analysis, where the test can also reject when only a single study has signal. 
 
-The procedures implemented in the functions compute the adjusted p-values for FDR control on replicability claims. By declaring as replicability discoveries the features with adjusted p-values (termed r-values) to the desired nominal level (e.g., 0.05), the FDR on replicability claims is controlled at the nominal level. 
+The procedures implemented in the functions compute the adjusted p-values for FDR control on replicability claims. By declaring as replicability discoveries the features with adjusted p-values (termed r-values) below the desired nominal level (e.g., 0.05), the FDR on replicability claims is controlled at the nominal level. See Bogomolov and Heller (2013), Heller, Bogomolov and Benjamini (2014), and Bogomolov and Heller (2018) for details.
 
 The function `radjust_sym` should be used for replicability analysis of two independent studies, each examining multiple features. The features for replicability are first selected in each study separately based on the results of that study.
 

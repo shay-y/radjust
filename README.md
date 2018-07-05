@@ -21,8 +21,10 @@ study has signal.
 The procedures implemented in the functions compute the adjusted
 p-values for FDR control on replicability claims. By declaring as
 replicability discoveries the features with adjusted p-values (termed
-r-values) to the desired nominal level (e.g., 0.05), the FDR on
-replicability claims is controlled at the nominal level.
+r-values) below the desired nominal level (e.g., 0.05), the FDR on
+replicability claims is controlled at the nominal level. See Bogomolov
+and Heller (2013), Heller, Bogomolov and Benjamini (2014), and Bogomolov
+and Heller (2018) for details.
 
 The function `radjust_sym` should be used for replicability analysis of
 two independent studies, each examining multiple features. The features
@@ -66,7 +68,7 @@ radjust_sym(pv1, pv2, input_type = "all", directional_rep_claim = TRUE, variant 
     > 19 features selected in study 2.
     > 12 features selected in both studies.
     > 
-    > Estimates for fraction of nulls among the selected:
+    > Estimates for fraction of nulls among the selected in the other study:
     > 0.4432133 in study 1.
     > 0.4736842 in study 2.
     > 
@@ -85,7 +87,7 @@ radjust_sym(pv1, pv2, input_type = "all", directional_rep_claim = TRUE, variant 
     >    26 6.65468e-09 3.15068e-04 0.001492426      Left           *
     >    27 6.65468e-09 9.48060e-05 0.000598774      Left           *
     > 
-    > 12 features are significant for directional replicability analysis (alpha = 0.05).
+    > 12 features are discovered in the  directional replicability analysis (alpha = 0.05).
 
 Primary and follow-up studies (`radjust_pf`):
 
@@ -132,6 +134,12 @@ citation("radjust")
     >   replicate from a primary study of high dimension to a follow-up
     >   study. Journal of the American Statistical Association, Vol.
     >   108, No. 504, Pp. 1480-1492.
+    > 
+    >   Heller, R., Bogomolov, M., & Benjamini, Y. (2014). Deciding
+    >   whether follow-up studies have replicated findings in a
+    >   preliminary large-scale omics study. Proceedings of the National
+    >   Academy of Sciences of the United States of America, Vol. 111,
+    >   No. 46, Pp. 16262–16267.
     > 
     > To see these entries in BibTeX format, use 'print(<citation>,
     > bibtex=TRUE)', 'toBibtex(.)', or set
