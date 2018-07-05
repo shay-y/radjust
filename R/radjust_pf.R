@@ -3,8 +3,8 @@
 #' @description Given two vectors of p-values from the primary and follow-up studies, returns the adjusted p-values for false
 #' discovery rate control on replicability claims. The p-value vectors are only for features selected for follow-up.
 #'
-#' @param pv1 numeric vector of p-values from the primary study  which
-#'  correspond to the p-values from the follow-up study (\code{pv2}).
+#' @param pv1 numeric vector of p-values from the primary study which
+#'  corresponds to the p-values from the follow-up study (\code{pv2}).
 #' @param pv2 numeric vector of p-values from the follow-up study.
 #' @param m     the number of features examined in the primary study (> \code{length(pv1)}).
 #' @param c2    the relative boost to the p-values from the \strong{follow-up} study.
@@ -37,6 +37,9 @@
 #'
 #' @references Bogomolov, M. and Heller, R. (2013). Discovering findings that replicate from a primary study of high dimension to a follow-up study.
 #' Journal of the American Statistical Association, Vol. 108, No. 504, Pp. 1480-1492.
+#' 
+#' Heller, R., Bogomolov, M., & Benjamini, Y. (2014). Deciding whether follow-up studies have replicated findings in a preliminary large-scale omics study.
+#' Proceedings of the National Academy of Sciences of the United States of America, Vol. 111, No. 46, Pp. 16262–16267.
 #'
 #' @examples
 #'  data(crohn)

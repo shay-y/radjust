@@ -32,4 +32,29 @@ bibentry(bibtype = "article", header = "To cite radjust_pf(), add:",
 	year = "2013",  textVersion = "Bogomolov, M. and Heller, R. (2013). Discovering findings that replicate from a primary study of high dimension to a follow-up study. Journal of the American Statistical Association, Vol. 108, No. 504, Pp. 1480-1492."
 )
 
+bibentry(bibtype = "article", # header = "To cite radjust_pf(), add:",
+  author = c(person("Ruth","Heller"), person("Marina","Bogomolov"), person("Yoav","Benjamini")),
+  title = "Deciding whether follow-up studies have replicated findings in a preliminary large-scale omics study.",
+  journal = "Proceedings of the National Academy of Sciences of the United States of America",
+  volume = "111",
+	number = "46",
+	pages = "16262--16267",
+	year = "2014",  textVersion = "Heller, R., Bogomolov, M., & Benjamini, Y. (2014). Deciding whether follow-up studies have replicated findings in a preliminary large-scale omics study. Proceedings of the National Academy of Sciences of the United States of America, Vol. 111, No. 46, Pp. 16262–16267.
+")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

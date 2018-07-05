@@ -8,8 +8,8 @@ radjust_pf(pv1, pv2, m, c2 = 0.5, l00 = 0, variant = c("none",
   "general_dependency", "use_threshold"), threshold = NULL, alpha = 0.05)
 }
 \arguments{
-\item{pv1}{numeric vector of p-values from the primary study  which
-correspond to the p-values from the follow-up study (\code{pv2}).}
+\item{pv1}{numeric vector of p-values from the primary study which
+corresponds to the p-values from the follow-up study (\code{pv2}).}
 
 \item{pv2}{numeric vector of p-values from the follow-up study.}
 
@@ -63,6 +63,9 @@ The function is also available as a web applet:  \url{http://www.math.tau.ac.il/
 \references{
 Bogomolov, M. and Heller, R. (2013). Discovering findings that replicate from a primary study of high dimension to a follow-up study.
 Journal of the American Statistical Association, Vol. 108, No. 504, Pp. 1480-1492.
+
+Heller, R., Bogomolov, M., & Benjamini, Y. (2014). Deciding whether follow-up studies have replicated findings in a preliminary large-scale omics study.
+Proceedings of the National Academy of Sciences of the United States of America, Vol. 111, No. 46, Pp. 16262–16267.
 }
 \seealso{
 \code{\link{radjust_sym}} for replicability analysis in two symmetric studies.
