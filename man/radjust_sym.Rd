@@ -116,7 +116,7 @@ print(mice_rv_non_adpt_sel)
 
 mice_rv_non_adpt <- radjust_sym(pv1, pv2, input_type = "selected", directional_rep_claim = TRUE,
                                 variant = "non-adaptive")
-str(mice_rv_non_adpt)
+print(mice_rv_non_adpt)
 
 }
 \references{

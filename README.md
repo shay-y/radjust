@@ -87,7 +87,7 @@ radjust_sym(pv1, pv2, input_type = "all", directional_rep_claim = TRUE, variant 
     >    26 6.65468e-09 3.15068e-04 0.001492426      Left           *
     >    27 6.65468e-09 9.48060e-05 0.000598774      Left           *
     > 
-    > 12 features are discovered in the  directional replicability analysis (alpha = 0.05).
+    > 12 features are discovered in the directional replicability analysis (alpha = 0.05).
 
 Primary and follow-up studies (`radjust_pf`):
 

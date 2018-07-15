@@ -103,7 +103,7 @@
 #'
 #' mice_rv_non_adpt <- radjust_sym(pv1, pv2, input_type = "selected", directional_rep_claim = TRUE,
 #'                                 variant = "non-adaptive")
-#' str(mice_rv_non_adpt)
+#' print(mice_rv_non_adpt)
 #'
 
 radjust_sym <- function(pv1,
@@ -317,7 +317,7 @@ print.radjust <- function (x, digits_df = max(3L, getOption("digits") - 1L), ...
   cat("\nFeatures selected in both studies:\n", sep = "")
   print.data.frame(x$results_table, row.names = F, digits = digits_df,...)
   if (x$inputs$variant != "non-adaptive")
-    cat("\n", nrow(x$results_table)," features are discovered in the ",
+    cat("\n", sum(x$results_table$Significant == "*")," features are discovered in the ",
         if (x$inputs$directional_rep_claim) "directional" else "",
         " replicability analysis (alpha = ",x$inputs$alpha,").\n", sep = "")
   invisible(x)
