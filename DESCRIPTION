@@ -2,17 +2,17 @@ Package: radjust
 Type: Package
 Title: Replicability Adjusted p-values for Two Independent Studies with Multiple Endpoints
 Version: 0.1.0
-Date: 2018-05-20
+Date: 2018-07-24
 Authors@R:c(
     person("Shay", "Yaacoby", email = "shay66@gmail.com", role = "aut"),
     person("Marina", "Bogomolov", email = "marinabo@technion.ac.il", role = "aut"),
     person("Ruth", "Heller", email = "ruheller@gmail.com", role =  c("aut", "cre")))
-Description: This package provides the adjusted p-values for the null hypothesis of no replicability 
-  across studies for two study designs: a primary and follow-up study, where the features in the follow-up study 
-  are selected from the primary study; two independent studies, where the features for replicability are first 
-  selected in each study separately. The latter design is the one encountered in typical meta-analysis of 
-  two studies, but the inference is for replicability rather than for identifying the features that are nonnull
-  in at least one study. 
+Description: The functions in the package calculate adjusted p-values for the null hypothesis of no replicability
+ across studies for two study designs: (i) a primary and follow-up study, where the features in the follow-up study
+ are selected from the primary study; (ii) two independent studies, where the features for replicability are first
+ selected in each study separately. The latter design is the one encountered in a typical meta-analysis of
+ two studies, but the inference is for replicability rather than for identifying the features that are nonnull
+ in at least one study. 
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
