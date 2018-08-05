@@ -4,8 +4,8 @@ test_that(
   {
     example(topic = "radjust_pf", package = "radjust", lib.loc = .libPaths(), echo = FALSE)
     eo <- radjust:::examples_outputs_for_testing
-    expect_equivalent(rv, eo$rv)
-    expect_equivalent(rv2, eo$rv2)
+    expect_equivalent(rv, eo$rv, tolerance = 5e-5)
+    expect_equivalent(rv2, eo$rv2, tolerance = 5e-5)
 })
 
 test_that(
