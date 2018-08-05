@@ -5,7 +5,8 @@
 \title{Adjust p-values for Replicability across Two Independent, Primary and Follow-up, Studies with Multiple Endpoints}
 \usage{
 radjust_pf(pv1, pv2, m, c2 = 0.5, l00 = 0, variant = c("none",
-  "general_dependency", "use_threshold"), threshold = NULL, alpha = 0.05)
+  "general_dependency", "use_threshold"), threshold = NULL,
+  alpha = 0.05)
 }
 \arguments{
 \item{pv1}{numeric vector of p-values from the primary study which

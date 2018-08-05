@@ -2,8 +2,8 @@ Package: radjust
 Type: Package
 Title: Replicability Adjusted p-values for Two Independent Studies with Multiple Endpoints
 Version: 0.1.0
-Date: 2018-07-24
-Authors@R:c(
+Date: 2018-08-05
+Authors@R: c(
     person("Shay", "Yaacoby", email = "shay66@gmail.com", role = "aut"),
     person("Marina", "Bogomolov", email = "marinabo@technion.ac.il", role = "aut"),
     person("Ruth", "Heller", email = "ruheller@gmail.com", role =  c("aut", "cre")))
@@ -19,4 +19,4 @@ LazyData: true
 Depends: R (>= 2.10)
 Suggests: covr,
     testthat
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
