@@ -13,13 +13,6 @@ Possibly mis-spelled words in DESCRIPTION:
 
 -->  Replicability is not mis-spelled here.
 
-The Title field should be in title case, current version then in title case:
-'Replicability Adjusted p-values for Two Independent Studies with Multiple Endpoints'
-'Replicability Adjusted p-Values for Two Independent Studies with Multiple Endpoints'
-
--->  We prefer "p-values" not capitalized, or capitalized as in p.adjust: "P-values". In any case
-     not with capital V ("p-Values"), as in the auto-suggestion.
- 
 ## Reverse dependencies
 
 This is a new release, so there are no reverse dependencies.
