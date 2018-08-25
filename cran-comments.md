@@ -13,10 +13,12 @@ Maintainer: 'Ruth Heller <ruheller@gmail.com>'
 New submission
 
 Possibly mis-spelled words in DESCRIPTION:
+  Benjamini (13:144)
+  Bogomolov (13:55, 13:130, 15:53)
   Replicability (3:8)
-  replicability (11:101, 13:92, 15:40)
+  replicability (11:73, 14:55, 17:40)
 
--->  Replicability is not mis-spelled here.
+-->  all are spelled correctly
 
 ## Reverse dependencies
 
