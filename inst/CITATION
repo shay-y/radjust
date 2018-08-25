@@ -20,7 +20,9 @@ bibentry(bibtype = "article", header = "To cite radjust_sym(), add:",
   author = c(person("Marina","Bogomolov"), person("Ruth","Heller")),
   title = "Assessing replicability of findings across two studies of multiple features",
   journal="Biometrika",
-  year="2018", textVersion = "Bogomolov, M. and Heller, R. (2018). Assessing replicability of findings across two studies of multiple features. Biometrika.")
+  year="2018",
+  doi="10.1093/biomet/asy029",
+  textVersion = "Bogomolov, M. and Heller, R. (2018). Assessing replicability of findings across two studies of multiple features. Biometrika.")
 
 bibentry(bibtype = "article", header = "To cite radjust_pf(), add:",
   author = c(person("Marina","Bogomolov"), person("Ruth","Heller")),
@@ -29,7 +31,8 @@ bibentry(bibtype = "article", header = "To cite radjust_pf(), add:",
   volume = "108",
 	number = "504",
 	pages = "1480--1492",
-	year = "2013",  textVersion = "Bogomolov, M. and Heller, R. (2013). Discovering findings that replicate from a primary study of high dimension to a follow-up study. Journal of the American Statistical Association, Vol. 108, No. 504, Pp. 1480-1492."
+	year = "2013",
+	doi="10.1080/01621459.2013.829002", textVersion = "Bogomolov, M. and Heller, R. (2013). Discovering findings that replicate from a primary study of high dimension to a follow-up study. Journal of the American Statistical Association, Vol. 108, No. 504, Pp. 1480-1492."
 )
 
 bibentry(bibtype = "article", # header = "To cite radjust_pf(), add:",
@@ -39,7 +42,8 @@ bibentry(bibtype = "article", # header = "To cite radjust_pf(), add:",
   volume = "111",
 	number = "46",
 	pages = "16262--16267",
-	year = "2014",  textVersion = "Heller, R., Bogomolov, M., & Benjamini, Y. (2014). Deciding whether follow-up studies have replicated findings in a preliminary large-scale omics study. Proceedings of the National Academy of Sciences of the United States of America, Vol. 111, No. 46, Pp. 16262–16267.
+	year = "2014",
+	doi="10.1073/pnas.1314814111", textVersion = "Heller, R., Bogomolov, M., & Benjamini, Y. (2014). Deciding whether follow-up studies have replicated findings in a preliminary large-scale omics study. Proceedings of the National Academy of Sciences of the United States of America, Vol. 111, No. 46, Pp. 16262–16267.
 ")
 
 
