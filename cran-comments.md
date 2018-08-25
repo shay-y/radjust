@@ -1,3 +1,8 @@
+## resubmission:
+
+* removed "The functions in the package ..." from description
+* added references with dois where needed.
+
 ## R CMD check results
 
 0 error  | 0 warnings | 1 notes
